@@ -2,7 +2,7 @@ package com.training.pms.bank;
 
 public class Bank {
 	
-	public void choice(int num) {
+	public static void choice(int num) {
 		switch(num) {
 		case 1:
 			System.out.println("Login");
