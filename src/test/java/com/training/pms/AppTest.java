@@ -32,7 +32,7 @@ class AppTest {
 
 	@Test
 	void test() {
-		
+		b.startBankApp();
 	}
 
 }
