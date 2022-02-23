@@ -8,8 +8,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.training.pms.bank.BankApp;
-
 class AppTest {
 	
 	BankApp b = new BankApp();

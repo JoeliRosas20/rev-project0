@@ -1,4 +1,4 @@
-package com.training.pms.bank;
+package com.training.pms;
 
 import java.util.Scanner;
 
@@ -7,7 +7,7 @@ import com.training.pms.dao.BankDAOImpl;
 
 public class BankApp {
 	
-	static Scanner scanner = new Scanner(System.in);
+	Scanner scanner = new Scanner(System.in);
 	int choice = 0;
 	BankDAO bankDAO = new BankDAOImpl();
 	
@@ -54,6 +54,27 @@ public class BankApp {
 		}
 	}
 	
+	public void login() {
+		char choice = ' ';
+		int userID = 0;
+		System.out.println("########Login Screen##########");
+		System.out.println("Please enter the type of login (C - Customer /E - Employee ) : ");
+		choice = scanner.next().charAt(0);
+		if(choice != 'E' && choice != 'C') {
+			System.out.println("Invalid input, please try again");
+			choice = scanner.next().charAt(0);
+		}
+		if(choice == 'E') {
+			System.out.println("Please enter your employee id: ");
+			userID = scanner.nextInt();
+		}
+		if(choice == 'C') {
+			System.out.println("Please enter your customer id: ");
+			userID = scanner.nextInt();
+			personalPage(userID);
+		}
+	}
+	
 	public void createAccount() {
 		char choice = ' ';
 		System.out.println("Welcome to create/open account section");
@@ -71,6 +92,14 @@ public class BankApp {
 		else if(choice == 'C') {
 			customerCreate();
 		}
+	}
+	
+	public void bankingAppInfo() {
+		System.out.println("The Joel Bank is here to serve YOU!");
+	}
+	
+	public void devInfo() {
+		System.out.println("About Me:");
 	}
 	
 	public void employeeCreate() {
@@ -102,29 +131,9 @@ public class BankApp {
 		System.out.println("Congrats" + custName);
 	}
 	
-	public void login() {
-		char choice = ' ';
-		int userID = 0;
-		System.out.println("########Login Screen##########");
-		System.out.println("Please enter the type of login (C - Customer /E - Employee ) : ");
-		choice = scanner.next().charAt(0);
-		if(choice != 'E' && choice != 'C') {
-			System.out.println("Invalid input, please try again");
-			choice = scanner.next().charAt(0);
-		}
-		if(choice == 'E') {
-			System.out.println("Please enter your employee id: ");
-			userID = scanner.nextInt();
-		}
-		if(choice == 'C') {
-			System.out.println("Please enter your customer id: ");
-			userID = scanner.nextInt();
-			personalPage(userID);
-		}
-	}
-	
 	public void personalPage(int num) {
 		//database code
+		int choice = scanner.nextInt();
 		System.out.println("Welcome");
 		System.out.println("###############Personal page for Neha##############");
 		System.out.println("1. View Balance");
@@ -133,14 +142,10 @@ public class BankApp {
 		System.out.println("8. Logout");
 		System.out.println("9. Exit");
 		System.out.println("Enter your choice : ");
-	}
-	
-	public void bankingAppInfo() {
-		System.out.println("The Joel Bank is here to serve YOU!");
-	}
-	
-	public void devInfo() {
-		System.out.println("About Me:");
+		switch(choice) {
+			case 1:
+				
+		}
 	}
 
 }

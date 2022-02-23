@@ -1,7 +1,5 @@
 package com.training.pms;
 
-import com.training.pms.bank.BankApp;
-
 /**
  * Hello world!
  *
