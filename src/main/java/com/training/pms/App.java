@@ -1,7 +1,5 @@
 package com.training.pms;
 
-import java.util.Scanner;
-
 import com.training.pms.bank.BankApp;
 
 /**
