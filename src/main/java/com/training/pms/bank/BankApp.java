@@ -13,26 +13,21 @@ public class BankApp {
 	
 	public void startBankApp() {
 		System.out.println("Entering");
-        BankApp.message();
-        while(scanner.hasNext()) {
+        while(true) {
+        	System.out.println( "###################################" );
+            System.out.println("	Joel Banking App");
+            System.out.println( "###################################" );
+            System.out.println("1 Login");
+            System.out.println("2 Create Account");
+            System.out.println("3 Know more about the Banking App");
+            System.out.println("4 Know more about the developers");
+            System.out.println("10.E X I T");
         	choice = scanner.nextInt();
-        	BankApp.choice(choice);
-        	//Bank.message();
+        	choice(choice);
 		}
 	}
 	
-	public static void message() {
-		System.out.println( "###################################" );
-        System.out.println("	Joel Banking App");
-        System.out.println( "###################################" );
-        System.out.println("1 Login");
-        System.out.println("2 Create Account");
-        System.out.println("3 Know more about the Banking App");
-        System.out.println("4 Know more about the developers");
-        System.out.println("10.E X I T");
-	}
-	
-	public static void choice(int num) {
+	public void choice(int num) {
 		switch(num) {
 		case 1:
 			System.out.println("Login");
@@ -44,9 +39,11 @@ public class BankApp {
 			break;
 		case 3:
 			System.out.println("Know about app");
+			bankingAppInfo();
 			break;
 		case 4:
 			System.out.println("Know about Devs");
+			devInfo();
 			break;
 		case 10:
 			System.out.println("Thanks for using the Banking app.");
@@ -57,7 +54,7 @@ public class BankApp {
 		}
 	}
 	
-	public static void createAccount() {
+	public void createAccount() {
 		char choice = ' ';
 		System.out.println("Welcome to create/open account section");
 		System.out.println("Please enter the details to open an acccount:");
@@ -76,7 +73,7 @@ public class BankApp {
 		}
 	}
 	
-	public static void employeeCreate() {
+	public void employeeCreate() {
 		int empID = 0;
 		String empName = " ";
 		String empPassword = " ";
@@ -89,10 +86,9 @@ public class BankApp {
 		empPassword = scanner.next();
 		//Database code
 		System.out.println("Congrats"+empName);
-		BankApp.message();
 	}
 	
-	public static void customerCreate() {
+	public void customerCreate() {
 		int custID = 0;
 		String custName = " ";
 		String custPassword = " ";
@@ -104,10 +100,9 @@ public class BankApp {
 		System.out.println("Enter your password : ");
 		custPassword = scanner.next();
 		System.out.println("Congrats" + custName);
-		BankApp.message();
 	}
 	
-	public static void login() {
+	public void login() {
 		char choice = ' ';
 		int userID = 0;
 		System.out.println("########Login Screen##########");
@@ -128,11 +123,12 @@ public class BankApp {
 		}
 	}
 	
-	public static void personalPage(int num) {
+	public void personalPage(int num) {
 		//database code
 		System.out.println("Welcome");
 		System.out.println("###############Personal page for Neha##############");
 		System.out.println("1. View Balance");
+		bankDAO.viewAccount();
 		System.out.println("2. Transfer amount");
 		System.out.println("8. Logout");
 		System.out.println("9. Exit");

@@ -1,6 +1,8 @@
 package com.training.pms.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.training.pms.utility.DBConnection;
 
@@ -14,9 +16,14 @@ public class BankDAOImpl implements BankDAO{
 		
 	}
 
-	@Override
-	public void viewAccount(int accountID) {
+	public void viewAccount() {
 		// TODO Auto-generated method stub
+		Statement stat;
+		try {
+			stat = connection.createStatement();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
