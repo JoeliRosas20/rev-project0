@@ -8,11 +8,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.training.pms.bank.Bank;
+import com.training.pms.bank.BankApp;
 
 class AppTest {
 	
-	Bank b = new Bank();
+	BankApp b = new BankApp();
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {

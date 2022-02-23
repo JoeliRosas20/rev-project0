@@ -2,20 +2,23 @@ package com.training.pms.bank;
 
 import java.util.Scanner;
 
-public class Bank {
+import com.training.pms.dao.BankDAO;
+import com.training.pms.dao.BankDAOImpl;
+
+public class BankApp {
 	
 	static Scanner scanner = new Scanner(System.in);
+	int choice = 0;
+	BankDAO bankDAO = new BankDAOImpl();
 	
 	public void startBankApp() {
 		System.out.println("Entering");
-		int choice = 0;
-        Bank.message();
+        BankApp.message();
         while(scanner.hasNext()) {
         	choice = scanner.nextInt();
-        	Bank.choice(choice);
+        	BankApp.choice(choice);
         	//Bank.message();
 		}
-        System.out.println("Leaving");
 	}
 	
 	public static void message() {
@@ -45,9 +48,12 @@ public class Bank {
 		case 4:
 			System.out.println("Know about Devs");
 			break;
+		case 10:
+			System.out.println("Thanks for using the Banking app.");
+			System.exit(0);
+			break;
 		default:
 			System.out.println("Default");
-			System.exit(0);
 		}
 	}
 	
@@ -83,7 +89,7 @@ public class Bank {
 		empPassword = scanner.next();
 		//Database code
 		System.out.println("Congrats"+empName);
-		Bank.message();
+		BankApp.message();
 	}
 	
 	public static void customerCreate() {
@@ -98,7 +104,7 @@ public class Bank {
 		System.out.println("Enter your password : ");
 		custPassword = scanner.next();
 		System.out.println("Congrats" + custName);
-		Bank.message();
+		BankApp.message();
 	}
 	
 	public static void login() {

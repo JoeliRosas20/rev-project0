@@ -1,6 +1,12 @@
 package com.training.pms.dao;
 
-public class BankDaoImpl implements BankDAO{
+import java.sql.Connection;
+
+import com.training.pms.utility.DBConnection;
+
+public class BankDAOImpl implements BankDAO{
+	
+	Connection connection = DBConnection.getConnection();
 
 	@Override
 	public void approveTransaction(boolean res) {
