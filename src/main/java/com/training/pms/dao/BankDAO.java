@@ -1,4 +1,4 @@
-package com.training.pms.bank;
+package com.training.pms.dao;
 
 public interface BankDAO {
 	

@@ -118,7 +118,19 @@ public class Bank {
 		if(choice == 'C') {
 			System.out.println("Please enter your customer id: ");
 			userID = scanner.nextInt();
+			personalPage(userID);
 		}
+	}
+	
+	public static void personalPage(int num) {
+		//database code
+		System.out.println("Welcome");
+		System.out.println("###############Personal page for Neha##############");
+		System.out.println("1. View Balance");
+		System.out.println("2. Transfer amount");
+		System.out.println("8. Logout");
+		System.out.println("9. Exit");
+		System.out.println("Enter your choice : ");
 	}
 	
 	public void bankingAppInfo() {
