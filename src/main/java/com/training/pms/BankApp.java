@@ -82,7 +82,7 @@ public class BankApp {
 			System.out.println("Please enter your customer id: ");
 			userID = scanner.nextInt();
 			if (bankDAO.isAccountThere(userID)) {
-				System.out.println("Hello");
+				personalPage();
 			}
 		}
 	}
@@ -158,9 +158,8 @@ public class BankApp {
 		}
 	}
 
-	public void personalPage(int num) {
+	public void personalPage() {
 		// database code
-		int choice = scanner.nextInt();
 		System.out.println("Welcome");
 		System.out.println("###############Personal page for Neha##############");
 		System.out.println("1. View Balance");
@@ -169,6 +168,7 @@ public class BankApp {
 		System.out.println("8. Logout");
 		System.out.println("9. Exit");
 		System.out.println("Enter your choice : ");
+		int choice = scanner.nextInt();
 		switch (choice) {
 		case 1:
 
