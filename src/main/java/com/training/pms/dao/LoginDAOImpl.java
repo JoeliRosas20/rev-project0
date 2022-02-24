@@ -15,7 +15,7 @@ public class LoginDAOImpl implements LoginDAO{
 	@Override
 	public boolean register(Login login) {
 		// TODO Auto-generated method stub
-		System.out.println("##Adding products :" + login);
+		System.out.println("Registration");
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {

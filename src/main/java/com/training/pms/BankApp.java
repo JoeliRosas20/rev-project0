@@ -2,6 +2,9 @@ package com.training.pms;
 
 import java.util.Scanner;
 
+import com.training.pms.bank.Customer;
+import com.training.pms.bank.Employee;
+import com.training.pms.bank.Login;
 import com.training.pms.dao.BankDAO;
 import com.training.pms.dao.BankDAOImpl;
 
@@ -10,6 +13,9 @@ public class BankApp {
 	Scanner scanner = new Scanner(System.in);
 	int choice = 0;
 	BankDAO bankDAO = new BankDAOImpl();
+	Customer customer = new Customer();
+	Employee employee = new Employee();
+	Login login = new Login();
 
 	public void startBankApp() {
 		System.out.println("Entering");
@@ -127,7 +133,10 @@ public class BankApp {
 		custName = scanner.next();
 		System.out.println("Enter your password : ");
 		custPassword = scanner.next();
+		login = new Login(custName, custPassword);
+		customer = new Customer();
 		System.out.println("Congrats" + custName);
+		
 	}
 
 	public void personalPage(int num) {

@@ -2,7 +2,6 @@ package com.training.pms.bank;
 
 public class Login {
 	
-	private int loginId;
 	private String username;
 	private String password;
 
@@ -10,19 +9,10 @@ public class Login {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Login(int loginId, String username, String password) {
+	public Login(String username, String password) {
 		super();
-		this.loginId = loginId;
 		this.username = username;
 		this.password = password;
-	}
-
-	public int getLoginId() {
-		return loginId;
-	}
-
-	public void setLoginId(int loginId) {
-		this.loginId = loginId;
 	}
 
 	public String getUsername() {
@@ -45,7 +35,6 @@ public class Login {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + loginId;
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
@@ -60,8 +49,6 @@ public class Login {
 		if (getClass() != obj.getClass())
 			return false;
 		Login other = (Login) obj;
-		if (loginId != other.loginId)
-			return false;
 		if (password == null) {
 			if (other.password != null)
 				return false;
@@ -77,7 +64,7 @@ public class Login {
 
 	@Override
 	public String toString() {
-		return "Login [loginId=" + loginId + ", username=" + username + ", password=" + password + "]";
+		return "Login [username=" + username + ", password=" + password + "]";
 	}
 
 }

@@ -2,6 +2,7 @@ package com.training.pms.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 import com.training.pms.utility.DBConnection;
@@ -31,6 +32,19 @@ public class BankDAOImpl implements BankDAO{
 	public void viewTransactionLod(int logID) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isAccountThere(int userId) {
+		// TODO Auto-generated method stub
+		boolean accountExists = false;
+		PreparedStatement stat;
+		try {
+			stat = connection.prepareStatement("select * from Login where ");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }
