@@ -7,15 +7,19 @@ import com.training.pms.bank.Employee;
 import com.training.pms.bank.Login;
 import com.training.pms.dao.BankDAO;
 import com.training.pms.dao.BankDAOImpl;
+import com.training.pms.dao.LoginDAO;
+import com.training.pms.dao.LoginDAOImpl;
 
 public class BankApp {
 
 	Scanner scanner = new Scanner(System.in);
 	int choice = 0;
 	BankDAO bankDAO = new BankDAOImpl();
+	LoginDAO loginDAO = new LoginDAOImpl();
 	Customer customer = new Customer();
 	Employee employee = new Employee();
 	Login login = new Login();
+	Boolean result;
 
 	public void startBankApp() {
 		System.out.println("Entering");
@@ -134,9 +138,14 @@ public class BankApp {
 		System.out.println("Enter your password : ");
 		custPassword = scanner.next();
 		login = new Login(custName, custPassword);
-		customer = new Customer();
-		System.out.println("Congrats" + custName);
-		
+		customer = new Customer(0, custID, custName);
+		result = loginDAO.register(login);
+		bankDAO.addCustomer(customer);
+		if(result) {
+			System.out.println("Congrats" + custName);
+		}else {
+			System.out.println("Sorry");
+		}
 	}
 
 	public void personalPage(int num) {
