@@ -81,7 +81,9 @@ public class BankApp {
 		if (choice == 'C') {
 			System.out.println("Please enter your customer id: ");
 			userID = scanner.nextInt();
-			personalPage(userID);
+			if (bankDAO.isAccountThere(userID)) {
+				System.out.println("Hello");
+			}
 		}
 	}
 
@@ -123,13 +125,13 @@ public class BankApp {
 		System.out.println("Enter your password : ");
 		empPassword = scanner.next();
 		// Database code
-		login = new Login(empName, empPassword);
+		login = new Login(empName, empPassword, empID);
 		employee = new Employee(empID, empName);
 		result = loginDAO.register(login);
 		bankDAO.addEmployee(employee);
-		if(result) {
+		if (result) {
 			System.out.println("Congrats" + empName);
-		}else {
+		} else {
 			System.out.println("Sorry");
 		}
 	}
@@ -145,13 +147,13 @@ public class BankApp {
 		custName = scanner.next();
 		System.out.println("Enter your password : ");
 		custPassword = scanner.next();
-		login = new Login(custName, custPassword);
+		login = new Login(custName, custPassword, custID);
 		customer = new Customer(0, custID, custName);
 		result = loginDAO.register(login);
 		bankDAO.addCustomer(customer);
-		if(result) {
+		if (result) {
 			System.out.println("Congrats" + custName);
-		}else {
+		} else {
 			System.out.println("Sorry");
 		}
 	}

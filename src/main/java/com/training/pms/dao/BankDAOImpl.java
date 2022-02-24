@@ -3,6 +3,7 @@ package com.training.pms.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 import com.training.pms.bank.Customer;
@@ -91,11 +92,14 @@ public class BankDAOImpl implements BankDAO{
 		boolean accountExists = false;
 		PreparedStatement stat;
 		try {
-			stat = connection.prepareStatement("select * from Login where ");
+			stat = connection.prepareStatement("select * from Login where userId = ?");
+			stat.setInt(1, userId);
+			ResultSet set = stat.executeQuery();
+			accountExists = set.next();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return accountExists;
 	}
 
 }

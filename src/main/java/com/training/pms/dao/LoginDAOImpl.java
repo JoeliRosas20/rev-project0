@@ -19,9 +19,10 @@ public class LoginDAOImpl implements LoginDAO{
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
-			statement = connection.prepareStatement("insert into login values(default,?,?)");
+			statement = connection.prepareStatement("insert into login values(default,?,?,?)");
 			statement.setString(1, login.getUsername());
 			statement.setString(2, login.getPassword());
+			statement.setInt(3, login.getUserId());
 
 			rows = statement.executeUpdate();
 			System.out.println(rows + " inserted successfully");

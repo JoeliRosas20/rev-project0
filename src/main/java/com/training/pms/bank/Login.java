@@ -4,15 +4,17 @@ public class Login {
 	
 	private String username;
 	private String password;
+	private int userId;
 
 	public Login() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Login(String username, String password) {
+	public Login(String username, String password, int userId) {
 		super();
 		this.username = username;
 		this.password = password;
+		this.userId = userId;
 	}
 
 	public String getUsername() {
@@ -31,11 +33,20 @@ public class Login {
 		this.password = password;
 	}
 
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + userId;
 		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
@@ -54,6 +65,8 @@ public class Login {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (userId != other.userId)
+			return false;
 		if (username == null) {
 			if (other.username != null)
 				return false;
@@ -64,7 +77,7 @@ public class Login {
 
 	@Override
 	public String toString() {
-		return "Login [username=" + username + ", password=" + password + "]";
+		return "Login [username=" + username + ", password=" + password + ", userId=" + userId + "]";
 	}
 
 }
