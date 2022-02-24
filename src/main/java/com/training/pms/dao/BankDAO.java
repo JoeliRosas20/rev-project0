@@ -1,6 +1,7 @@
 package com.training.pms.dao;
 
 import com.training.pms.bank.Customer;
+import com.training.pms.bank.Employee;
 
 public interface BankDAO {
 	
@@ -8,6 +9,7 @@ public interface BankDAO {
 	public void viewAccount();
 	public void viewTransactionLod(int logID);
 	public boolean addCustomer(Customer costumer);
+	boolean addEmployee(Employee employee);
 	public boolean isAccountThere(int userId);
-
+	
 }

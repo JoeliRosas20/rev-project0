@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 import com.training.pms.bank.Customer;
+import com.training.pms.bank.Employee;
 import com.training.pms.utility.DBConnection;
 
 public class BankDAOImpl implements BankDAO{
@@ -46,6 +47,30 @@ public class BankDAOImpl implements BankDAO{
 			statement.setInt(1, customer.getBalance());
 			statement.setInt(2, customer.getId());
 			statement.setString(3, customer.getName());
+
+			rows = statement.executeUpdate();
+			System.out.println(rows + " inserted successfully");
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
+	public boolean addEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		System.out.println("##Adding customer :" + employee);
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("insert into Employee values(?,?)");
+			statement.setInt(1, employee.getId());
+			statement.setString(2, employee.getName());
 
 			rows = statement.executeUpdate();
 			System.out.println(rows + " inserted successfully");

@@ -123,7 +123,15 @@ public class BankApp {
 		System.out.println("Enter your password : ");
 		empPassword = scanner.next();
 		// Database code
-		System.out.println("Congrats" + empName);
+		login = new Login(empName, empPassword);
+		employee = new Employee(empID, empName);
+		result = loginDAO.register(login);
+		bankDAO.addEmployee(employee);
+		if(result) {
+			System.out.println("Congrats" + empName);
+		}else {
+			System.out.println("Sorry");
+		}
 	}
 
 	public void customerCreate() {
