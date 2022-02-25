@@ -14,5 +14,7 @@ public interface BankDAO {
 	public String getCustomerName(int userId);
 	public int getBalance(int userId);
 	public String getEmployeeName(int userId);
+	public boolean depositToAccount(int num);
+	public boolean withdrawFromAccount(int num);
 	
 }

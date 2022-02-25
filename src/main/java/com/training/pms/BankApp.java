@@ -206,6 +206,12 @@ public class BankApp {
 			case 2:
 				System.out.println("Transfer Amount");
 				break;
+			case 3:
+				System.out.println("Deposit");
+				break;
+			case 4:
+				System.out.println("Withdraw");
+				break;
 			case 8:
 				login();
 				break;
@@ -217,6 +223,14 @@ public class BankApp {
 				System.out.println("Invalid choice");
 			}
 		}
+	}
+	
+	public void deposit() {
+		
+	}
+	
+	public void withdraw() {
+		
 	}
 
 	public void bankPage(int userId) {
@@ -234,4 +248,5 @@ public class BankApp {
 			}
 		}
 	}
+	
 }
