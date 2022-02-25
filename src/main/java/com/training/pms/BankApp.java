@@ -65,24 +65,29 @@ public class BankApp {
 	}
 
 	public void login() {
-		char choice = ' ';
-		int userID = 0;
-		System.out.println("########Login Screen##########");
-		System.out.println("Please enter the type of login (C - Customer /E - Employee ) : ");
-		choice = scanner.next().charAt(0);
-		if (choice != 'E' && choice != 'C') {
-			System.out.println("Invalid input, please try again");
+		while (true) {
+			char choice = ' ';
+			int userID = 0;
+			System.out.println("########Login Screen##########");
+			System.out.println("Please enter the type of login (C - Customer /E - Employee ) : ");
 			choice = scanner.next().charAt(0);
-		}
-		if (choice == 'E') {
-			System.out.println("Please enter your employee id: ");
-			userID = scanner.nextInt();
-		}
-		if (choice == 'C') {
-			System.out.println("Please enter your customer id: ");
-			userID = scanner.nextInt();
-			if (bankDAO.isAccountThere(userID)) {
-				personalPage();
+			if (choice != 'E' && choice != 'C') {
+				System.out.println("Invalid input, please try again");
+				choice = scanner.next().charAt(0);
+			}
+			if (choice == 'E') {
+				System.out.println("Please enter your employee id: ");
+				userID = scanner.nextInt();
+			}
+			if (choice == 'C') {
+				System.out.println("Please enter your customer id: ");
+				userID = scanner.nextInt();
+				if (bankDAO.isAccountThere(userID)) {
+					personalPage(userID);
+				}else {
+					System.out.println("User does not exist. Try again");
+					continue;
+				}
 			}
 		}
 	}
@@ -158,10 +163,11 @@ public class BankApp {
 		}
 	}
 
-	public void personalPage() {
+	public void personalPage(int userId) {
 		// database code
+		String name = bankDAO.getCustomerName(userId);
 		System.out.println("Welcome");
-		System.out.println("###############Personal page for Neha##############");
+		System.out.println("###############Personal page for "+ name+"##############");
 		System.out.println("1. View Balance");
 		bankDAO.viewAccount();
 		System.out.println("2. Transfer amount");
@@ -171,7 +177,20 @@ public class BankApp {
 		int choice = scanner.nextInt();
 		switch (choice) {
 		case 1:
-
+			System.out.println("View Balance");
+			break;
+		case 2:
+			System.out.println("Transfer Amount");
+			break;
+		case 8:
+			login();
+			break;
+		case 9:
+			System.out.println("See you later");
+			startBankApp();
+			break;
+		default:
+			System.out.println("Invalid choice");
 		}
 	}
 

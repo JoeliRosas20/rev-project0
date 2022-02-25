@@ -102,4 +102,21 @@ public class BankDAOImpl implements BankDAO{
 		return accountExists;
 	}
 
+	@Override
+	public String getCustomerName(int userId) {
+		// TODO Auto-generated method stub
+		String name = " ";
+		PreparedStatement stat;
+		try {
+			stat = connection.prepareStatement("select username from Customer where userId=?");
+			stat.setInt(1, userId);
+			ResultSet res = stat.executeQuery();
+			res.next();
+			name = res.getString(1);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+
 }
