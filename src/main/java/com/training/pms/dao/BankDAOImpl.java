@@ -175,7 +175,20 @@ public class BankDAOImpl implements BankDAO{
 	@Override
 	public boolean withdrawFromAccount(int num) {
 		// TODO Auto-generated method stub
-		return false;
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("update from Customer set balance = balance - ?");
+			statement.setInt(1, num);
+			rows = statement.executeUpdate();
+			System.out.println(rows+" updated successfully");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
 	}
 
 }
