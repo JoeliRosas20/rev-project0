@@ -68,6 +68,8 @@ public class BankApp {
 		while (true) {
 			char choice = ' ';
 			int userID = 0;
+			String password = " ";
+			String name = " ";
 			System.out.println("########Login Screen##########");
 			System.out.println("Please enter the type of login (C - Customer /E - Employee ) : ");
 			choice = scanner.next().charAt(0);
@@ -78,13 +80,22 @@ public class BankApp {
 			if (choice == 'E') {
 				System.out.println("Please enter your employee id: ");
 				userID = scanner.nextInt();
+				name = bankDAO.getEmployeeName(userID);
+				System.out.println("Please enter your password: ");
+				password = scanner.next();
+				if(loginDAO.validate(name, password)) {
+					bankPage(userID);
+				}
 			}
 			if (choice == 'C') {
 				System.out.println("Please enter your customer id: ");
 				userID = scanner.nextInt();
-				if (bankDAO.isAccountThere(userID)) {
+				name = bankDAO.getCustomerName(userID);
+				System.out.println("Please enter your password: ");
+				password = scanner.next();
+				if (loginDAO.validate(name, password)) {
 					personalPage(userID);
-				}else {
+				} else {
 					System.out.println("User does not exist. Try again");
 					continue;
 				}
@@ -145,6 +156,8 @@ public class BankApp {
 		int custID = 0;
 		String custName = " ";
 		String custPassword = " ";
+		String choice = " ";
+		int balance = 0;
 		System.out.println("Account details for Customer ?");
 		System.out.println("Enter customer id : ");
 		custID = scanner.nextInt();
@@ -152,8 +165,15 @@ public class BankApp {
 		custName = scanner.next();
 		System.out.println("Enter your password : ");
 		custPassword = scanner.next();
+		System.out.println("Do you have money to add in your balance?");
+		System.out.println("Press Y for Yes. Press N or any other key for No");
+		choice = scanner.next();
+		if (choice.equalsIgnoreCase("Y")) {
+			System.out.println("Enter the amount you want to put:");
+			balance = scanner.nextInt();
+		}
 		login = new Login(custName, custPassword, custID);
-		customer = new Customer(0, custID, custName);
+		customer = new Customer(balance, custID, custName);
 		result = loginDAO.register(login);
 		bankDAO.addCustomer(customer);
 		if (result) {
@@ -165,33 +185,53 @@ public class BankApp {
 
 	public void personalPage(int userId) {
 		// database code
-		String name = bankDAO.getCustomerName(userId);
-		System.out.println("Welcome");
-		System.out.println("###############Personal page for "+ name+"##############");
-		System.out.println("1. View Balance");
-		bankDAO.viewAccount();
-		System.out.println("2. Transfer amount");
-		System.out.println("8. Logout");
-		System.out.println("9. Exit");
-		System.out.println("Enter your choice : ");
-		int choice = scanner.nextInt();
-		switch (choice) {
-		case 1:
-			System.out.println("View Balance");
-			break;
-		case 2:
-			System.out.println("Transfer Amount");
-			break;
-		case 8:
-			login();
-			break;
-		case 9:
-			System.out.println("See you later");
-			startBankApp();
-			break;
-		default:
-			System.out.println("Invalid choice");
+		while (true) {
+			String name = bankDAO.getCustomerName(userId);
+			System.out.println("Welcome");
+			System.out.println("############### Personal page for " + name + " ##############");
+			System.out.println("1. View Balance");
+			bankDAO.viewAccount();
+			System.out.println("2. Transfer amount");
+			System.out.println("3. Deposit");
+			System.out.println("4. Withdraw");
+			System.out.println("8. Logout");
+			System.out.println("9. Exit");
+			System.out.println("Enter your choice : ");
+			int choice = scanner.nextInt();
+			switch (choice) {
+			case 1:
+				System.out.println("View Balance");
+				System.out.println(name + ", your balance is: " + bankDAO.getBalance(userId));
+				break;
+			case 2:
+				System.out.println("Transfer Amount");
+				break;
+			case 8:
+				login();
+				break;
+			case 9:
+				System.out.println("See you later");
+				startBankApp();
+				break;
+			default:
+				System.out.println("Invalid choice");
+			}
 		}
 	}
 
+	public void bankPage(int userId) {
+		while(true) {
+			String name = bankDAO.getEmployeeName(userId);
+			int choice = 0;
+			System.out.println("Welcome back "+name);
+			System.out.println("9. E X I T");
+			choice = scanner.nextInt();
+			switch(choice) {
+			case 9:
+				System.out.println("See you later");
+				startBankApp();
+				break;
+			}
+		}
+	}
 }

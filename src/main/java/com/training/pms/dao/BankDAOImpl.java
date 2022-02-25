@@ -119,4 +119,38 @@ public class BankDAOImpl implements BankDAO{
 		return name;
 	}
 
+	@Override
+	public int getBalance(int userId) {
+		// TODO Auto-generated method stub
+		int balance = 0;
+		PreparedStatement stat;
+		try {
+			stat = connection.prepareStatement("select balance from Customer where userId=?");
+			stat.setInt(1, userId);
+			ResultSet res = stat.executeQuery();
+			res.next();
+			balance = res.getInt(1);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return balance;
+	}
+
+	@Override
+	public String getEmployeeName(int userId) {
+		// TODO Auto-generated method stub
+		String name = " ";
+		PreparedStatement stat;
+		try {
+			stat = connection.prepareStatement("select username from Employee where userId=?");
+			stat.setInt(1, userId);
+			ResultSet res = stat.executeQuery();
+			res.next();
+			name = res.getString(1);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+
 }
