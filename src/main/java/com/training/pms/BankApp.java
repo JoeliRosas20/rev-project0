@@ -60,7 +60,7 @@ public class BankApp {
 			System.exit(0);
 			break;
 		default:
-			System.out.println("Default");
+			System.out.println("Invalid, try again");
 		}
 	}
 
