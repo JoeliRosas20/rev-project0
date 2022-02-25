@@ -159,7 +159,7 @@ public class BankDAOImpl implements BankDAO{
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
-			statement = connection.prepareStatement("update from Customer set balance = balance + ?");
+			statement = connection.prepareStatement("update Customer set balance = balance + ?");
 			statement.setInt(1, num);
 			rows = statement.executeUpdate();
 			System.out.println(rows+" updated successfully");
@@ -178,7 +178,7 @@ public class BankDAOImpl implements BankDAO{
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
-			statement = connection.prepareStatement("update from Customer set balance = balance - ?");
+			statement = connection.prepareStatement("update from Customer set balance = balance -  ?");
 			statement.setInt(1, num);
 			rows = statement.executeUpdate();
 			System.out.println(rows+" updated successfully");

@@ -208,6 +208,9 @@ public class BankApp {
 				break;
 			case 3:
 				System.out.println("Deposit");
+				System.out.println("How much money do you want to deposit?");
+				int dep = scanner.nextInt();
+				bankDAO.depositToAccount(dep);
 				break;
 			case 4:
 				System.out.println("Withdraw");
