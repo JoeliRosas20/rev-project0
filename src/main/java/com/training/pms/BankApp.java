@@ -249,9 +249,17 @@ public class BankApp {
 			String name = bankDAO.getEmployeeName(userId);
 			int choice = 0;
 			System.out.println("Welcome back "+name);
+			System.out.println("1. Check for pending transactions");
+			System.out.println("2. View a customer's account");
 			System.out.println("9. E X I T");
 			choice = scanner.nextInt();
 			switch(choice) {
+			case 1:
+				System.out.println("List of pending transactions");
+				break;
+			case 2:
+				System.out.println("Customer bank accounts");
+				break;
 			case 9:
 				System.out.println("See you later");
 				startBankApp();
