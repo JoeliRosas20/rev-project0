@@ -72,12 +72,10 @@ public class BankApp {
 			String name = " ";
 			System.out.println("########Login Screen##########");
 			System.out.println("Please enter the type of login (C - Customer /E - Employee ) : ");
+			System.out.println("Press L to leave");
 			choice = scanner.next().charAt(0);
-			if (choice != 'E' && choice != 'C') {
-				System.out.println("Invalid input, please try again");
-				choice = scanner.next().charAt(0);
-			}
-			if (choice == 'E') {
+			switch(choice) {
+			case 'E':
 				System.out.println("Please enter your employee id: ");
 				userID = scanner.nextInt();
 				name = bankDAO.getEmployeeName(userID);
@@ -86,8 +84,8 @@ public class BankApp {
 				if(loginDAO.validate(name, password)) {
 					bankPage(userID);
 				}
-			}
-			if (choice == 'C') {
+				break;
+			case 'C':
 				System.out.println("Please enter your customer id: ");
 				userID = scanner.nextInt();
 				name = bankDAO.getCustomerName(userID);
@@ -99,6 +97,12 @@ public class BankApp {
 					System.out.println("User does not exist. Try again");
 					continue;
 				}
+				break;
+			case 'L':
+				startBankApp();
+				break;
+			default:
+				System.out.println("Invalid input, please try again");
 			}
 		}
 	}
@@ -194,6 +198,7 @@ public class BankApp {
 			System.out.println("2. Transfer amount");
 			System.out.println("3. Deposit");
 			System.out.println("4. Withdraw");
+			System.out.println("5. Open a new Bank Account");
 			System.out.println("8. Logout");
 			System.out.println("9. Exit");
 			System.out.println("Enter your choice : ");
@@ -214,6 +219,9 @@ public class BankApp {
 				break;
 			case 4:
 				System.out.println("Withdraw");
+				System.out.println("How much money do you want to withdraw?");
+				int wit = scanner.nextInt();
+				bankDAO.withdrawFromAccount(wit);
 				break;
 			case 8:
 				login();
