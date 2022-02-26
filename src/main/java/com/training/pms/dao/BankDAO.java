@@ -12,7 +12,7 @@ public interface BankDAO {
 	boolean addEmployee(Employee employee);
 	public boolean isAccountThere(int userId);
 	public String getCustomerName(int userId);
-	public int getBalance(int userId);
+	public int getBalance(int userId, int account);
 	public String getEmployeeName(int userId);
 	public boolean depositToAccount(int num);
 	public boolean withdrawFromAccount(int num);

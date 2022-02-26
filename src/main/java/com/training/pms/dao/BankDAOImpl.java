@@ -120,7 +120,7 @@ public class BankDAOImpl implements BankDAO{
 	}
 
 	@Override
-	public int getBalance(int userId) {
+	public int getBalance(int userId, int account) {
 		// TODO Auto-generated method stub
 		int balance = 0;
 		PreparedStatement stat;

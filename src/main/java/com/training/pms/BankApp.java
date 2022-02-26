@@ -199,14 +199,19 @@ public class BankApp {
 			System.out.println("3. Deposit");
 			System.out.println("4. Withdraw");
 			System.out.println("5. Open a new Bank Account");
+			System.out.println("6. Transer money to an account");
+			System.out.println("7. Check for pending transfers from someone");
 			System.out.println("8. Logout");
 			System.out.println("9. Exit");
 			System.out.println("Enter your choice : ");
 			int choice = scanner.nextInt();
 			switch (choice) {
 			case 1:
+				int account = 0;
 				System.out.println("View Balance");
-				System.out.println(name + ", your balance is: " + bankDAO.getBalance(userId));
+				System.out.println("Check which account you want to see");
+				account = scanner.nextInt();
+				System.out.println(name + ", your balance is: " + bankDAO.getBalance(userId, account));
 				break;
 			case 2:
 				System.out.println("Transfer Amount");
@@ -222,6 +227,15 @@ public class BankApp {
 				System.out.println("How much money do you want to withdraw?");
 				int wit = scanner.nextInt();
 				bankDAO.withdrawFromAccount(wit);
+				break;
+			case 5:
+				System.out.println("Open a New Bank Account");
+				break;
+			case 6:
+				System.out.println("Transfer to an account");
+				break;
+			case 7:
+				System.out.println("Check for pending incoming transfers");
 				break;
 			case 8:
 				login();
