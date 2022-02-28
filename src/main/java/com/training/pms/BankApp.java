@@ -345,6 +345,7 @@ public class BankApp {
 					String sure = scanner.next();
 					if(sure.equals("Yes")) {
 						bankDAO.createAccount(temp);
+						bankDAO.removeAprrovedAccounts(accChoice);
 					}
 					else {
 						continue;
