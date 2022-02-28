@@ -88,10 +88,10 @@ public class BankApp {
 			case 'C':
 				System.out.println("Please enter your customer id: ");
 				userID = scanner.nextInt();
-				name = bankDAO.getCustomerName(userID);
 				System.out.println("Please enter your password: ");
 				password = scanner.next();
 				if (loginDAO.validate(name, password)) {
+					name = bankDAO.getCustomerName(userID);
 					personalPage(userID);
 				} else {
 					System.out.println("User does not exist. Try again");
