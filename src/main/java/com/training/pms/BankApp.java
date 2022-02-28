@@ -192,6 +192,7 @@ public class BankApp {
 		// database code
 		while (true) {
 			boolean created = false;
+			boolean sent = false;
 			String name = bankDAO.getCustomerName(userId);
 			System.out.println("Welcome");
 			System.out.println("############### Personal page for " + name + " ##############");
@@ -249,6 +250,20 @@ public class BankApp {
 				break;
 			case 6:
 				System.out.println("Transfer to an account");
+				System.out.println("Transfer to your own account or someone else?");
+				int option = scanner.nextInt();
+				if(option==1) {
+					System.out.println("Which account do you want to transfer from?");
+					int account1 = scanner.nextInt();
+					System.out.println("To which account do you want to send it to?");
+					int account2 = scanner.nextInt();
+					System.out.println("How much do you want to send?");
+					int transfer = scanner.nextInt();
+					sent = bankDAO.transferMoney(account1, account2, transfer);
+					if(sent) {
+						System.out.println("Success");
+					}
+				}
 				break;
 			case 7:
 				System.out.println("Check for pending incoming transfers");

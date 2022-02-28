@@ -1,5 +1,6 @@
 package com.training.pms.dao;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
@@ -185,12 +186,30 @@ public class BankDAOImpl implements BankDAO{
 	}
 	
 	@Override
-	public boolean transferMoney(int account, int num) {
-		return false;
+	public boolean transferMoney(int account, int account2, int num) {
+		CallableStatement stat = null;
+		int rows = 0;
+		try {
+			stat = connection.prepareCall("call transfer(?,?,?)");
+			stat.setInt(1, account);
+			stat.setInt(2, account2);
+			stat.setInt(3, num);
+			stat.execute();
+			
+			rows = stat.executeUpdate();
+			System.out.println(rows + " changed ");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return true;
+		else
+			return false;
 	}
 	
 	@Override
-	public boolean transferMoney(int userId, int account, int num) {
+	public boolean transferMoneyToOthers(int userId, int account, int num) {
 		return false;
 	}
 	
