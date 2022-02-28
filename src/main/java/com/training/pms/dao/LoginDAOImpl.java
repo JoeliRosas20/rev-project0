@@ -38,13 +38,13 @@ public class LoginDAOImpl implements LoginDAO{
 	}
 
 	@Override
-	public boolean validate(String username, String password) {
+	public boolean validate(int userId, String password) {
 		// TODO Auto-generated method stub
 		boolean userValid = false;
 		PreparedStatement stat;
 		try {
-			stat = connection.prepareStatement("select * from login where username = ? and password = ?");
-			stat.setString(1, username);
+			stat = connection.prepareStatement("select * from login where userid = ? and password = ?");
+			stat.setInt(1, userId);
 			stat.setString(2, password);
 			ResultSet res = stat.executeQuery();
 			userValid = res.next();

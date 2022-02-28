@@ -44,10 +44,9 @@ public class BankDAOImpl implements BankDAO{
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
-			statement = connection.prepareStatement("insert into Customer values(?,?,?)");
-			statement.setInt(1, customer.getBalance());
-			statement.setInt(2, customer.getId());
-			statement.setString(3, customer.getName());
+			statement = connection.prepareStatement("insert into Customer values(?,?)");
+			statement.setInt(1, customer.getId());
+			statement.setString(2, customer.getName());
 
 			rows = statement.executeUpdate();
 			System.out.println(rows + " inserted successfully");
@@ -192,14 +191,15 @@ public class BankDAOImpl implements BankDAO{
 	}
 
 	@Override
-	public boolean createAccount(int userId, int num) {
+	public boolean createAccount(Customer customer) {
 		// TODO Auto-generated method stub
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
-			statement = connection.prepareStatement("insert into Bank (?,Default,?)");
-			statement.setInt(1, userId);
-			statement.setInt(2, num);
+			statement = connection.prepareStatement("insert into Bank values(default,?,?)");
+			statement.setInt(1, customer.getId());
+			statement.setInt(2, customer.getBalance());
+			
 			rows = statement.executeUpdate();
 			System.out.println(rows + " inserted ");
 		}catch(SQLException e) {
@@ -214,7 +214,18 @@ public class BankDAOImpl implements BankDAO{
 	@Override
 	public int getAccountId(int userId) {
 		// TODO Auto-generated method stub
-		return 0;
+		int accId = 0;
+		PreparedStatement stat = null;
+		try {
+			stat= connection.prepareStatement("select accountId from Bank where userId = ?");
+			stat.setInt(1, userId);
+			ResultSet res = stat.executeQuery();
+			res.next();
+			accId = res.getInt(1);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return accId;
 	}
 
 }

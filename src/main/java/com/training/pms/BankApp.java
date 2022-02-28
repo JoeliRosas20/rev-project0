@@ -78,10 +78,9 @@ public class BankApp {
 			case 'E':
 				System.out.println("Please enter your employee id: ");
 				userID = scanner.nextInt();
-				name = bankDAO.getEmployeeName(userID);
 				System.out.println("Please enter your password: ");
 				password = scanner.next();
-				if(loginDAO.validate(name, password)) {
+				if(loginDAO.validate(userID, password)) {
 					bankPage(userID);
 				}
 				break;
@@ -90,7 +89,7 @@ public class BankApp {
 				userID = scanner.nextInt();
 				System.out.println("Please enter your password: ");
 				password = scanner.next();
-				if (loginDAO.validate(name, password)) {
+				if (loginDAO.validate(userID, password)) {
 					name = bankDAO.getCustomerName(userID);
 					personalPage(userID);
 				} else {
@@ -180,9 +179,10 @@ public class BankApp {
 		customer = new Customer(balance, custID, custName);
 		result = loginDAO.register(login);
 		bankDAO.addCustomer(customer);
-		bankDAO.createAccount(custID, balance);
+		bankDAO.createAccount(customer);
+		int accId = bankDAO.getAccountId(custID);
 		if (result) {
-			System.out.println("Congrats" + custName);
+			System.out.println("Congrats" + custName + " your account ID is " + accId);
 		} else {
 			System.out.println("Sorry");
 		}
@@ -231,7 +231,7 @@ public class BankApp {
 				break;
 			case 5:
 				System.out.println("Open a New Bank Account");
-				bankDAO.createAccount(userId, 0);
+				bankDAO.createAccount(customer);
 				break;
 			case 6:
 				System.out.println("Transfer to an account");
