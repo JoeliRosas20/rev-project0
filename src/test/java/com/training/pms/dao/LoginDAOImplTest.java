@@ -17,6 +17,8 @@ import com.training.pms.bank.Login;
 class LoginDAOImplTest {
 	
 	LoginDAO loginDAO;
+	String usernameE;
+	String usernameC;
 	int userIdE;
 	int userIdC;
 	String passwordE;
@@ -33,6 +35,8 @@ class LoginDAOImplTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		loginDAO = new LoginDAOImpl();
+		usernameE = "Dummy E";
+		usernameC = "Dummy C";
 		userIdE = 100;
 		userIdC = 50;
 		passwordE = "Eroot";
@@ -42,30 +46,30 @@ class LoginDAOImplTest {
 	@AfterEach
 	void tearDown() throws Exception {
 	}
-/*
+
 	@Test
 	@Order(value = 2)
-	void testRegister() {
-		Login login = new Login("C Dummy", "Croot", 50);
+	void testRegisterC() {
+		Login login = new Login(usernameC, passwordC, userIdC);
 		assertTrue(loginDAO.register(login));
 	}
 	
 	@Test
 	@Order(value = 1)
-	void testRegister2() {
-		Login login = new Login("E Dummy", "Eroot", 100);
+	void testRegisterE() {
+		Login login = new Login(usernameE, passwordE, userIdE);
 		assertTrue(loginDAO.register(login));
 	}
-*/
+
 	@Test
-	@Order(value = 2)
-	void testValidate() {
+	@Order(value = 4)
+	void testValidateC() {
 		assertTrue(loginDAO.validate(userIdC, passwordC));
 	}
 	
 	@Test
-	@Order(value = 1)
-	void testValidate2() {
+	@Order(value = 3)
+	void testValidateE() {
 		assertTrue(loginDAO.validate(userIdE, passwordE));
 	}
 

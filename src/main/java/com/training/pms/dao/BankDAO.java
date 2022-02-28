@@ -13,8 +13,8 @@ public interface BankDAO {
 	public Bank viewAccount(int userId, int account);
 	public void viewTransactionLod(int logID);
 	public boolean sendForApproval(Customer customer);
-	public List<Bank> getPending();
-	public Bank getBankAccount(int accId);
+	public List<Bank> getPendings();
+	public Bank getPendingBankAccount(int accId);
 	//User Stuff
 	public boolean addCustomer(Customer costumer);
 	public boolean addEmployee(Employee employee);
@@ -31,5 +31,6 @@ public interface BankDAO {
 	public String getEmployeeName(int userId);
 	public int getAccountId(int userId, int num);
 	public boolean areThereAccounts(int userId);
+	public boolean removeAprrovedAccounts(int pendId);
 	
 }

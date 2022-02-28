@@ -20,12 +20,10 @@ public class BankDAOImpl implements BankDAO{
 
 	@Override
 	public void approveTransaction(boolean res) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	public Bank viewAccount(int userId, int account) {
-		// TODO Auto-generated method stub
 		Bank bank = new Bank();
 		PreparedStatement stat;
 		try {
@@ -45,7 +43,6 @@ public class BankDAOImpl implements BankDAO{
 
 	@Override
 	public void viewTransactionLod(int logID) {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -68,7 +65,7 @@ public class BankDAOImpl implements BankDAO{
 			return true;
 	}
 	
-	public List<Bank> getPending(){
+	public List<Bank> getPendings(){
 		List<Bank> pending = new ArrayList<Bank>();
 		Statement stat;
 		try {
@@ -87,7 +84,7 @@ public class BankDAOImpl implements BankDAO{
 		return pending;
 	}
 	
-	public Bank getBankAccount(int accId){
+	public Bank getPendingBankAccount(int accId){
 		Bank account = new Bank();
 		PreparedStatement stat;
 		try {
@@ -106,7 +103,6 @@ public class BankDAOImpl implements BankDAO{
 	
 	@Override
 	public boolean addCustomer(Customer customer) {
-		// TODO Auto-generated method stub
 		System.out.println("##Adding customer :" + customer);
 		PreparedStatement statement = null;
 		int rows = 0;
@@ -130,7 +126,6 @@ public class BankDAOImpl implements BankDAO{
 	
 	@Override
 	public boolean addEmployee(Employee employee) {
-		// TODO Auto-generated method stub
 		System.out.println("##Adding customer :" + employee);
 		PreparedStatement statement = null;
 		int rows = 0;
@@ -154,7 +149,6 @@ public class BankDAOImpl implements BankDAO{
 
 	@Override
 	public int getBalance(int userId, int accountId) {
-		// TODO Auto-generated method stub
 		int balance = 0;
 		PreparedStatement stat;
 		try {
@@ -171,7 +165,6 @@ public class BankDAOImpl implements BankDAO{
 
 	@Override
 	public boolean depositToAccount(int accountId, int num) {
-		// TODO Auto-generated method stub
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
@@ -191,7 +184,6 @@ public class BankDAOImpl implements BankDAO{
 
 	@Override
 	public boolean withdrawFromAccount(int accountId, int num) {
-		// TODO Auto-generated method stub
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
@@ -211,7 +203,6 @@ public class BankDAOImpl implements BankDAO{
 
 	@Override
 	public boolean createAccount(Bank bank) {
-		// TODO Auto-generated method stub
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
@@ -236,7 +227,7 @@ public class BankDAOImpl implements BankDAO{
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
-			statement = connection.prepareStatement("insert into Bank values(default,?,?)");
+			statement = connection.prepareStatement("insert into PendingAccounts values(default,?,?)");
 			statement.setInt(1, userId);
 			statement.setInt(2, num);
 			
@@ -281,7 +272,6 @@ public class BankDAOImpl implements BankDAO{
 	
 	@Override
 	public String getCustomerName(int userId) {
-		// TODO Auto-generated method stub
 		String name = " ";
 		PreparedStatement stat;
 		try {
@@ -298,7 +288,6 @@ public class BankDAOImpl implements BankDAO{
 	
 	@Override
 	public String getEmployeeName(int userId) {
-		// TODO Auto-generated method stub
 		String name = " ";
 		PreparedStatement stat;
 		try {
@@ -315,7 +304,6 @@ public class BankDAOImpl implements BankDAO{
 
 	@Override
 	public int getAccountId(int userId, int num) {
-		// TODO Auto-generated method stub
 		int accId = 0;
 		PreparedStatement stat;
 		try {
@@ -332,7 +320,34 @@ public class BankDAOImpl implements BankDAO{
 	}
 	
 	public boolean areThereAccounts(int userId) {
-		return false;
+		boolean accountsExist = false;
+		PreparedStatement stat = null;
+		try {
+			stat = connection.prepareStatement("select * from Bank where userid = ?");
+			stat.setInt(1, userId);
+			ResultSet res = stat.executeQuery();
+			accountsExist = res.next();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return accountsExist;
 	}
 
+	public boolean removeAprrovedAccounts(int pendId) {
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("delete from PendingAccounts where pendid = ?");
+			statement.setInt(1, pendId);
+			rows = statement.executeUpdate();
+			System.out.println(rows + " deleted successfully");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
 }

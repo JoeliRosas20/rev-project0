@@ -219,10 +219,15 @@ public class BankApp {
 			case 1:
 				int account = 0;
 				System.out.println("View Balance");
-				System.out.println("Check which account you want to see");
-				account = scanner.nextInt();
-				System.out.println(name + ", your balance for "+ account
-						+ " is: $" + bankDAO.getBalance(userId, account));
+				if(bankDAO.areThereAccounts(userId)) {
+					System.out.println("Check which account you want to see");
+					account = scanner.nextInt();
+					System.out.println(name + ", your balance for "+ account
+							+ " is: $" + bankDAO.getBalance(userId, account));
+				}else {
+					System.out.println("You have no accounts. Please go to make one.");
+				}
+				
 				break;
 			case 2:
 				System.out.println("Transfer Amount");
@@ -311,6 +316,7 @@ public class BankApp {
 				System.out.println("List of pending transactions");
 				break;
 			case 2:
+				//TODO Make so you can see all the accounts the user has
 				System.out.println("Customer bank accounts");
 				System.out.println("Enter customer id");
 				int custId = scanner.nextInt();
@@ -323,14 +329,14 @@ public class BankApp {
 				break;
 			case 3:
 				System.out.println("Pending account creations");
-				pending = bankDAO.getPending();
+				pending = bankDAO.getPendings();
 				printPendingAccounts(pending);
 				System.out.println("Press 1 to approve, Press 2 to reject");
 				int pick = scanner.nextInt();
 				if(pick==1) {
 					System.out.println("Which account will you approve");
 					int accChoice = scanner.nextInt();
-					Bank temp = bankDAO.getBankAccount(accChoice);
+					Bank temp = bankDAO.getPendingBankAccount(accChoice);
 					System.out.println("Are you sure?");
 					String sure = scanner.next();
 					if(sure.equals("Yes")) {
