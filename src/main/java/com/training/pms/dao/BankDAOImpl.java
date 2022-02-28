@@ -185,6 +185,16 @@ public class BankDAOImpl implements BankDAO{
 	}
 	
 	@Override
+	public boolean transferMoney(int account, int num) {
+		return false;
+	}
+	
+	@Override
+	public boolean transferMoney(int userId, int account, int num) {
+		return false;
+	}
+	
+	@Override
 	public String getCustomerName(int userId) {
 		// TODO Auto-generated method stub
 		String name = " ";

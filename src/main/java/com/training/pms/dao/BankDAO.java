@@ -18,6 +18,8 @@ public interface BankDAO {
 	public boolean withdrawFromAccount(int accountId, int num);
 	public boolean createAccount(Customer customer);
 	public boolean createOtherAccount(int userId, int num);
+	public boolean transferMoney(int account, int num);
+	public boolean transferMoney(int userId, int account, int num);
 	//Helpers
 	public String getCustomerName(int userId);
 	public String getEmployeeName(int userId);
