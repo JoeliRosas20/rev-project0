@@ -20,17 +20,17 @@ public interface BankDAO {
 	public boolean addEmployee(Employee employee);
 	//Customer Stuff
 	public int getBalance(int userId, int account);
-	public boolean depositToAccount(int accountId,int num);
-	public boolean withdrawFromAccount(int accountId, int num);
+	public boolean depositToAccount(int accountId,int amount);
+	public boolean withdrawFromAccount(int accountId, int amount);
 	public boolean createAccount(Bank bank);
-	public boolean createOtherAccount(int userId, int num);
-	public boolean transferMoney(int account1, int account2, int num);
-	public boolean transferMoneyToOthers(int userId, int account, int num);
+	public boolean createOtherAccount(int userId, int amount);
+	public boolean transferMoney(int account1, int account2, int amount);
+	public boolean transferMoneyToOthers(int userId, int account, int amount);
 	//Helpers
 	public String getCustomerName(int userId);
 	public String getEmployeeName(int userId);
-	public int getAccountId(int userId, int num);
+	public int getAccountId(int userId, int amount);
 	public boolean areThereAccounts(int userId);
-	public boolean removeAprrovedAccounts(int pendId);
+	public boolean removeAccounts(int pendId);
 	
 }

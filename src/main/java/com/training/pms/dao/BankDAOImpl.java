@@ -164,12 +164,12 @@ public class BankDAOImpl implements BankDAO{
 	}
 
 	@Override
-	public boolean depositToAccount(int accountId, int num) {
+	public boolean depositToAccount(int accountId, int amount) {
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
 			statement = connection.prepareStatement("update Bank set balance = balance + ? where accountid = ? ");
-			statement.setInt(1, num);
+			statement.setInt(1, amount);
 			statement.setInt(2, accountId);
 			rows = statement.executeUpdate();
 			System.out.println(rows+" updated successfully");
@@ -183,12 +183,12 @@ public class BankDAOImpl implements BankDAO{
 	}
 
 	@Override
-	public boolean withdrawFromAccount(int accountId, int num) {
+	public boolean withdrawFromAccount(int accountId, int amount) {
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
 			statement = connection.prepareStatement("update Bank set balance = balance - ? where accountid = ?");
-			statement.setInt(1, num);
+			statement.setInt(1, amount);
 			statement.setInt(2, accountId);
 			rows = statement.executeUpdate();
 			System.out.println(rows+" updated successfully");
@@ -223,13 +223,13 @@ public class BankDAOImpl implements BankDAO{
 	}
 	
 	@Override
-	public boolean createOtherAccount(int userId, int num) {
+	public boolean createOtherAccount(int userId, int amount) {
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
 			statement = connection.prepareStatement("insert into PendingAccounts values(default,?,?)");
 			statement.setInt(1, userId);
-			statement.setInt(2, num);
+			statement.setInt(2, amount);
 			
 			rows = statement.executeUpdate();
 			System.out.println(rows + " inserted ");
@@ -265,7 +265,7 @@ public class BankDAOImpl implements BankDAO{
 	}
 	
 	@Override
-	public boolean transferMoneyToOthers(int userId, int account, int num) {
+	public boolean transferMoneyToOthers(int userId, int account, int amount) {
 		return false;
 	}
 	
@@ -302,13 +302,13 @@ public class BankDAOImpl implements BankDAO{
 	}
 
 	@Override
-	public int getAccountId(int userId, int num) {
+	public int getAccountId(int userId, int amount) {
 		int accId = 0;
 		PreparedStatement stat;
 		try {
 			stat= connection.prepareStatement("select pendid from PendingAccounts where userid = ? and balance = ?");
 			stat.setInt(1, userId);
-			stat.setInt(2, num);
+			stat.setInt(2, amount);
 			ResultSet res = stat.executeQuery();
 			res.next();
 			accId = res.getInt(1);
@@ -332,7 +332,7 @@ public class BankDAOImpl implements BankDAO{
 		return accountsExist;
 	}
 
-	public boolean removeAprrovedAccounts(int pendId) {
+	public boolean removeAccounts(int pendId) {
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {

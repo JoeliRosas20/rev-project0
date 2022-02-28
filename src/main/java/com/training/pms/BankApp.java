@@ -45,11 +45,11 @@ public class BankApp {
 
 	public void choice(int num) {
 		switch (num) {
-		case 1:
+		case 1://LOGIN
 			System.out.println("Login");
 			login();
 			break;
-		case 2:
+		case 2://CREATE NEW ACCOUNT
 			System.out.println("Create a new account");
 			createAccount();
 			break;
@@ -75,7 +75,6 @@ public class BankApp {
 			char choice = ' ';
 			int userID = 0;
 			String password = " ";
-			String name = " ";
 			System.out.println("########Login Screen##########");
 			System.out.println("Please enter the type of login (C - Customer /E - Employee ) : ");
 			System.out.println("Press L to leave");
@@ -88,6 +87,9 @@ public class BankApp {
 				password = scanner.next();
 				if (loginDAO.validate(userID, password)) {
 					bankPage(userID);
+				}else {
+					System.out.println("Invalid. Try again");
+					continue;
 				}
 				break;
 			case 'C':
@@ -96,7 +98,6 @@ public class BankApp {
 				System.out.println("Please enter your password: ");
 				password = scanner.next();
 				if (loginDAO.validate(userID, password)) {
-					name = bankDAO.getCustomerName(userID);
 					personalPage(userID);
 				} else {
 					System.out.println("User does not exist. Try again");
@@ -155,7 +156,7 @@ public class BankApp {
 		result = loginDAO.register(login);
 		bankDAO.addEmployee(employee);
 		if (result) {
-			System.out.println("Congrats" + empName);
+			System.out.println("Congrats " + empName);
 		} else {
 			System.out.println("Sorry");
 		}
@@ -190,7 +191,7 @@ public class BankApp {
 		bankDAO.sendForApproval(customer);
 		int accId = bankDAO.getAccountId(custID, balance);
 		if (result) {
-			System.out.println("Congrats" + custName + " your account ID is " + accId);
+			System.out.println("Congrats " + custName + " your account ID is " + accId);
 		} else {
 			System.out.println("Sorry");
 		}
@@ -216,7 +217,7 @@ public class BankApp {
 			System.out.println("Enter your choice : ");
 			int choice = scanner.nextInt();
 			switch (choice) {
-			case 1:
+			case 1://VIEW BALANCE
 				int account = 0;
 				System.out.println("View Balance");
 				if (bankDAO.areThereAccounts(userId)) {
@@ -233,7 +234,7 @@ public class BankApp {
 			case 2:
 				System.out.println("Transfer Amount");
 				break;
-			case 3:
+			case 3://DEPOSIT
 				System.out.println("Deposit");
 				System.out.println("How much money do you want to deposit?");
 				int dep = scanner.nextInt();
@@ -241,7 +242,7 @@ public class BankApp {
 				int acc = scanner.nextInt();
 				bankDAO.depositToAccount(acc, dep);
 				break;
-			case 4:
+			case 4://WITHDRAW
 				System.out.println("Withdraw");
 				System.out.println("How much money do you want to withdraw?");
 				int wit = scanner.nextInt();
@@ -249,7 +250,7 @@ public class BankApp {
 				int acc2 = scanner.nextInt();
 				bankDAO.withdrawFromAccount(acc2, wit);
 				break;
-			case 5:
+			case 5://OPEN NEW ACCOUNT
 				System.out.println("Open a New Bank Account");
 				System.out.println("How much money do you want to deposit?");
 				int num = scanner.nextInt();
@@ -261,7 +262,7 @@ public class BankApp {
 					System.out.println("Sorry");
 				}
 				break;
-			case 6:
+			case 6://TRANSFER TO AN ACCOUNT
 				System.out.println("Transfer to an account");
 				System.out.println("Transfer to your own account or someone else?");
 				System.out.println("1 for your own account, 2 for someone else");
@@ -279,13 +280,13 @@ public class BankApp {
 					}
 				}
 				break;
-			case 7:
+			case 7://CHECK FOR INCOMING TRANSFERS
 				System.out.println("Check for pending incoming transfers");
 				break;
-			case 8:
+			case 8://LOGIN PAGE
 				login();
 				break;
-			case 9:
+			case 9://SEE YA
 				System.out.println("See you later");
 				startBankApp();
 				break;
@@ -314,11 +315,10 @@ public class BankApp {
 			System.out.println("9. E X I T");
 			choice = scanner.nextInt();
 			switch (choice) {
-			case 1:
+			case 1://LIST OF PENDING TRANSACTIONS
 				System.out.println("List of pending transactions");
 				break;
-			case 2:
-				// TODO Make so you can see all the accounts the user has
+			case 2://VIEW CUSTOMER'S ACCOUNTS
 				System.out.println("Customer bank accounts");
 				System.out.println("Enter customer id");
 				int custId = scanner.nextInt();
@@ -334,7 +334,7 @@ public class BankApp {
 							"This user does not have any. Check the approval section if they just created one.");
 				}
 				break;
-			case 3:
+			case 3://PENDING ACCOUNT CREATIONS
 				System.out.println("Pending account creations");
 				pending = bankDAO.getPendings();
 				if (pending.size() == 0) {
@@ -351,21 +351,23 @@ public class BankApp {
 						String sure = scanner.next();
 						if (sure.equals("Yes")) {
 							bankDAO.createAccount(temp);
-							bankDAO.removeAprrovedAccounts(accChoice);
+							bankDAO.removeAccounts(accChoice);
+							System.out.println("Account approved");
 						} else {
 							continue;
 						}
 					} else if (pick == 2) {
 						System.out.println("Which account will you reject");
 						int accChoice = scanner.nextInt();
-						bankDAO.removeAprrovedAccounts(accChoice);
+						bankDAO.removeAccounts(accChoice);
+						System.out.println("Account rejected");
 						
 					} else {
 						System.out.println("I did not understand, try again");
 					}
 				}
 				break;
-			case 9:
+			case 9://SEE YA
 				System.out.println("See you later");
 				startBankApp();
 				break;
