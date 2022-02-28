@@ -212,7 +212,8 @@ public class BankApp {
 				System.out.println("View Balance");
 				System.out.println("Check which account you want to see");
 				account = scanner.nextInt();
-				System.out.println(name + ", your balance is: " + bankDAO.getBalance(userId, account));
+				System.out.println(name + ", your balance for "+ account
+						+ " is: $" + bankDAO.getBalance(userId, account));
 				break;
 			case 2:
 				System.out.println("Transfer Amount");
@@ -221,7 +222,9 @@ public class BankApp {
 				System.out.println("Deposit");
 				System.out.println("How much money do you want to deposit?");
 				int dep = scanner.nextInt();
-				bankDAO.depositToAccount(dep);
+				System.out.println("In which account do you want to deposit in?");
+				int acc=scanner.nextInt();
+				bankDAO.depositToAccount(acc,dep);
 				break;
 			case 4:
 				System.out.println("Withdraw");
