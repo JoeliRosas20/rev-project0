@@ -16,5 +16,6 @@ public interface BankDAO {
 	public String getEmployeeName(int userId);
 	public boolean depositToAccount(int num);
 	public boolean withdrawFromAccount(int num);
+	public boolean createAccount(int userId, int num);
 	
 }

@@ -180,6 +180,7 @@ public class BankApp {
 		customer = new Customer(balance, custID, custName);
 		result = loginDAO.register(login);
 		bankDAO.addCustomer(customer);
+		bankDAO.createAccount(custID, balance);
 		if (result) {
 			System.out.println("Congrats" + custName);
 		} else {
@@ -230,6 +231,7 @@ public class BankApp {
 				break;
 			case 5:
 				System.out.println("Open a New Bank Account");
+				bankDAO.createAccount(userId, 0);
 				break;
 			case 6:
 				System.out.println("Transfer to an account");

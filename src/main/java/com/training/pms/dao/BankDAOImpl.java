@@ -191,4 +191,19 @@ public class BankDAOImpl implements BankDAO{
 			return true;
 	}
 
+	@Override
+	public boolean createAccount(int userId, int num) {
+		// TODO Auto-generated method stub
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("insert into Bank (?,Default,?)");
+			//statement.setInt(1, );
+			//statement.setInt(2, rows);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
 }
