@@ -7,11 +7,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import com.training.pms.bank.Customer;
+import com.training.pms.bank.Employee;
+
 @TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
 class BankDAOImplTest {
+	
+	BankDAO bankDAO;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -23,6 +29,7 @@ class BankDAOImplTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
+		bankDAO = new BankDAOImpl();
 	}
 
 	@AfterEach
@@ -50,13 +57,18 @@ class BankDAOImplTest {
 	}
 
 	@Test
+	@Order(value = 2)
 	void testAddCustomer() {
 		fail("Not yet implemented");
+		Customer customer = new Customer(50, 50, "C Dummy");
+		assertTrue(bankDAO.addCustomer(customer));
 	}
 
 	@Test
+	@Order(value = 1)
 	void testAddEmployee() {
-		fail("Not yet implemented");
+		Employee employee = new Employee(100,"E Dummy");
+		assertTrue(bankDAO.addEmployee(employee));
 	}
 
 	@Test
