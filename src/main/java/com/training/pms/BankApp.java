@@ -231,7 +231,9 @@ public class BankApp {
 				break;
 			case 5:
 				System.out.println("Open a New Bank Account");
-				bankDAO.createAccount(customer);
+				System.out.println("How much money do you want to deposit?");
+				int num = scanner.nextInt();
+				bankDAO.createOtherAccount(userId, num);
 				break;
 			case 6:
 				System.out.println("Transfer to an account");

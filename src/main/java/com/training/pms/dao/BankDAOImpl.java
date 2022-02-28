@@ -86,46 +86,13 @@ public class BankDAOImpl implements BankDAO{
 	}
 
 	@Override
-	public boolean isAccountThere(int userId) {
-		// TODO Auto-generated method stub
-		boolean accountExists = false;
-		PreparedStatement stat;
-		try {
-			stat = connection.prepareStatement("select * from Login where userId = ?");
-			stat.setInt(1, userId);
-			ResultSet set = stat.executeQuery();
-			accountExists = set.next();
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return accountExists;
-	}
-
-	@Override
-	public String getCustomerName(int userId) {
-		// TODO Auto-generated method stub
-		String name = " ";
-		PreparedStatement stat;
-		try {
-			stat = connection.prepareStatement("select username from Customer where userId=?");
-			stat.setInt(1, userId);
-			ResultSet res = stat.executeQuery();
-			res.next();
-			name = res.getString(1);
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return name;
-	}
-
-	@Override
-	public int getBalance(int userId, int account) {
+	public int getBalance(int userId, int accountId) {
 		// TODO Auto-generated method stub
 		int balance = 0;
 		PreparedStatement stat;
 		try {
-			stat = connection.prepareStatement("select balance from Customer where userId=?");
-			stat.setInt(1, userId);
+			stat = connection.prepareStatement("select balance from Bank where accountid=?");
+			stat.setInt(1, accountId);
 			ResultSet res = stat.executeQuery();
 			res.next();
 			balance = res.getInt(1);
@@ -135,23 +102,7 @@ public class BankDAOImpl implements BankDAO{
 		return balance;
 	}
 
-	@Override
-	public String getEmployeeName(int userId) {
-		// TODO Auto-generated method stub
-		String name = " ";
-		PreparedStatement stat;
-		try {
-			stat = connection.prepareStatement("select username from Employee where userId=?");
-			stat.setInt(1, userId);
-			ResultSet res = stat.executeQuery();
-			res.next();
-			name = res.getString(1);
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return name;
-	}
-
+	
 	@Override
 	public boolean depositToAccount(int num) {
 		// TODO Auto-generated method stub
@@ -209,6 +160,60 @@ public class BankDAOImpl implements BankDAO{
 			return false;
 		else
 			return true;
+	}
+	
+	@Override
+	public boolean createOtherAccount(int userId, int num) {
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("insert into Bank values(default,?,?)");
+			statement.setInt(1, userId);
+			statement.setInt(2, num);
+			
+			rows = statement.executeUpdate();
+			System.out.println(rows + " inserted ");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	@Override
+	public String getCustomerName(int userId) {
+		// TODO Auto-generated method stub
+		String name = " ";
+		PreparedStatement stat;
+		try {
+			stat = connection.prepareStatement("select username from Customer where userId=?");
+			stat.setInt(1, userId);
+			ResultSet res = stat.executeQuery();
+			res.next();
+			name = res.getString(1);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+	
+	@Override
+	public String getEmployeeName(int userId) {
+		// TODO Auto-generated method stub
+		String name = " ";
+		PreparedStatement stat;
+		try {
+			stat = connection.prepareStatement("select username from Employee where userId=?");
+			stat.setInt(1, userId);
+			ResultSet res = stat.executeQuery();
+			res.next();
+			name = res.getString(1);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return name;
 	}
 
 	@Override
