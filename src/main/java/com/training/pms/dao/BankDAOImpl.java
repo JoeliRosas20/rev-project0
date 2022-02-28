@@ -219,13 +219,14 @@ public class BankDAOImpl implements BankDAO{
 	}
 
 	@Override
-	public int getAccountId(int userId) {
+	public int getAccountId(int userId, int num) {
 		// TODO Auto-generated method stub
 		int accId = 0;
-		PreparedStatement stat = null;
+		PreparedStatement stat;
 		try {
-			stat= connection.prepareStatement("select accountId from Bank where userId = ?");
+			stat= connection.prepareStatement("select accountid from Bank where userid = ? and balance = ?");
 			stat.setInt(1, userId);
+			stat.setInt(2, num);
 			ResultSet res = stat.executeQuery();
 			res.next();
 			accId = res.getInt(1);

@@ -180,7 +180,7 @@ public class BankApp {
 		result = loginDAO.register(login);
 		bankDAO.addCustomer(customer);
 		bankDAO.createAccount(customer);
-		int accId = bankDAO.getAccountId(custID);
+		int accId = bankDAO.getAccountId(custID, balance);
 		if (result) {
 			System.out.println("Congrats" + custName + " your account ID is " + accId);
 		} else {
@@ -191,6 +191,7 @@ public class BankApp {
 	public void personalPage(int userId) {
 		// database code
 		while (true) {
+			boolean created = false;
 			String name = bankDAO.getCustomerName(userId);
 			System.out.println("Welcome");
 			System.out.println("############### Personal page for " + name + " ##############");
@@ -238,7 +239,13 @@ public class BankApp {
 				System.out.println("Open a New Bank Account");
 				System.out.println("How much money do you want to deposit?");
 				int num = scanner.nextInt();
-				bankDAO.createOtherAccount(userId, num);
+				created = bankDAO.createOtherAccount(userId, num);
+				int accId = bankDAO.getAccountId(userId, num);
+				if(created) {
+					System.out.println("Congrats" + name + " your account ID is " + accId);
+				}else {
+					System.out.println("Sorry");
+				}
 				break;
 			case 6:
 				System.out.println("Transfer to an account");

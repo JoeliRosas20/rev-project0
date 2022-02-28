@@ -21,6 +21,6 @@ public interface BankDAO {
 	//Helpers
 	public String getCustomerName(int userId);
 	public String getEmployeeName(int userId);
-	public int getAccountId(int userId);
+	public int getAccountId(int userId, int num);
 	
 }
