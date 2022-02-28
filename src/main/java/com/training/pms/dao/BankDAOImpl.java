@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import com.training.pms.bank.Bank;
 import com.training.pms.bank.Customer;
 import com.training.pms.bank.Employee;
 import com.training.pms.utility.DBConnection;
@@ -21,15 +22,23 @@ public class BankDAOImpl implements BankDAO{
 		
 	}
 
-	public void viewAccount() {
+	public Bank viewAccount(int userId, int account) {
 		// TODO Auto-generated method stub
-		Statement stat;
+		Bank bank = new Bank();
+		PreparedStatement stat;
 		try {
-			stat = connection.createStatement();
+			stat = connection.prepareStatement("select * from Bank where userid=? and accountid=?");
+			stat.setInt(1, userId);
+			stat.setInt(2, account);
+			ResultSet res = stat.executeQuery();
+			res.next();
+			bank.setAccountId(res.getInt(1));
+			bank.setUserId(res.getInt(2));
+			bank.setBalance(res.getInt(3));
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
+		return bank;
 	}
 
 	@Override

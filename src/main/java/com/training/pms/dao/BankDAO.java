@@ -1,5 +1,6 @@
 package com.training.pms.dao;
 
+import com.training.pms.bank.Bank;
 import com.training.pms.bank.Customer;
 import com.training.pms.bank.Employee;
 
@@ -7,7 +8,7 @@ public interface BankDAO {
 	
 	//Employee Stuff
 	public void approveTransaction(boolean res);
-	public void viewAccount();
+	public Bank viewAccount(int userId, int account);
 	public void viewTransactionLod(int logID);
 	//User Stuff
 	public boolean addCustomer(Customer costumer);

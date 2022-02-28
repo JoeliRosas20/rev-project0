@@ -2,6 +2,7 @@ package com.training.pms;
 
 import java.util.Scanner;
 
+import com.training.pms.bank.Bank;
 import com.training.pms.bank.Customer;
 import com.training.pms.bank.Employee;
 import com.training.pms.bank.Login;
@@ -197,7 +198,6 @@ public class BankApp {
 			System.out.println("Welcome");
 			System.out.println("############### Personal page for " + name + " ##############");
 			System.out.println("1. View Balance");
-			bankDAO.viewAccount();
 			System.out.println("2. Transfer amount");
 			System.out.println("3. Deposit");
 			System.out.println("4. Withdraw");
@@ -304,6 +304,12 @@ public class BankApp {
 				break;
 			case 2:
 				System.out.println("Customer bank accounts");
+				System.out.println("Enter customer id");
+				int custId = scanner.nextInt();
+				System.out.println("Select their account");
+				int accId = scanner.nextInt();
+				Bank bank = bankDAO.viewAccount(custId, accId);
+				System.out.println(bank);
 				break;
 			case 9:
 				System.out.println("See you later");
