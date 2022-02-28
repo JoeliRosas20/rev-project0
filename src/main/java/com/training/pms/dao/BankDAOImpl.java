@@ -198,12 +198,23 @@ public class BankDAOImpl implements BankDAO{
 		int rows = 0;
 		try {
 			statement = connection.prepareStatement("insert into Bank (?,Default,?)");
-			//statement.setInt(1, );
-			//statement.setInt(2, rows);
+			statement.setInt(1, userId);
+			statement.setInt(2, num);
+			rows = statement.executeUpdate();
+			System.out.println(rows + " inserted ");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+
+	@Override
+	public int getAccountId(int userId) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

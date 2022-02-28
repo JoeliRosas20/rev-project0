@@ -17,5 +17,6 @@ public interface BankDAO {
 	public boolean depositToAccount(int num);
 	public boolean withdrawFromAccount(int num);
 	public boolean createAccount(int userId, int num);
+	public int getAccountId(int userId);
 	
 }
