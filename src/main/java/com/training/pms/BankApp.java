@@ -230,7 +230,9 @@ public class BankApp {
 				System.out.println("Withdraw");
 				System.out.println("How much money do you want to withdraw?");
 				int wit = scanner.nextInt();
-				bankDAO.withdrawFromAccount(wit);
+				System.out.println("In which account do you want to withdraw?");
+				int acc2=scanner.nextInt();
+				bankDAO.withdrawFromAccount(acc2,wit);
 				break;
 			case 5:
 				System.out.println("Open a New Bank Account");

@@ -124,13 +124,14 @@ public class BankDAOImpl implements BankDAO{
 	}
 
 	@Override
-	public boolean withdrawFromAccount(int num) {
+	public boolean withdrawFromAccount(int accountId, int num) {
 		// TODO Auto-generated method stub
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
-			statement = connection.prepareStatement("update Customer set balance = balance -  ?");
+			statement = connection.prepareStatement("update Bank set balance = balance - ? where accountid = ?");
 			statement.setInt(1, num);
+			statement.setInt(2, accountId);
 			rows = statement.executeUpdate();
 			System.out.println(rows+" updated successfully");
 		}catch(SQLException e) {

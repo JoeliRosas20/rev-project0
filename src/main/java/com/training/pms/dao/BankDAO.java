@@ -15,7 +15,7 @@ public interface BankDAO {
 	//Customer Stuff
 	public int getBalance(int userId, int account);
 	public boolean depositToAccount(int accountId,int num);
-	public boolean withdrawFromAccount(int num);
+	public boolean withdrawFromAccount(int accountId, int num);
 	public boolean createAccount(Customer customer);
 	public boolean createOtherAccount(int userId, int num);
 	//Helpers
