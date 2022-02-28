@@ -225,7 +225,7 @@ public class BankApp {
 					System.out.println(name + ", your balance for "+ account
 							+ " is: $" + bankDAO.getBalance(userId, account));
 				}else {
-					System.out.println("You have no accounts. Please go to make one.");
+					System.out.println("You have no accounts. Please go to make one or wait for approval if you already submitted.");
 				}
 				
 				break;
@@ -320,12 +320,16 @@ public class BankApp {
 				System.out.println("Customer bank accounts");
 				System.out.println("Enter customer id");
 				int custId = scanner.nextInt();
-				System.out.println("Select their account");
-				int accId = scanner.nextInt();
-				Bank bank = bankDAO.viewAccount(custId, accId);
-				String custName = bankDAO.getCustomerName(custId);
-				System.out.print(custName+"'s bank account: ");
-				System.out.println(bank);
+				if(bankDAO.areThereAccounts(custId)) {
+					System.out.println("Select their account");
+					int accId = scanner.nextInt();
+					Bank bank = bankDAO.viewAccount(custId, accId);
+					String custName = bankDAO.getCustomerName(custId);
+					System.out.print(custName+"'s bank account: ");
+					System.out.println(bank);
+				}else {
+					System.out.println("This user does not have any. Check the approval section if they just created one.");
+				}
 				break;
 			case 3:
 				System.out.println("Pending account creations");
