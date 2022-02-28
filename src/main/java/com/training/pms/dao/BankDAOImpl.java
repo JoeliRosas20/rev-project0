@@ -68,6 +68,42 @@ public class BankDAOImpl implements BankDAO{
 			return true;
 	}
 	
+	public List<Bank> getPending(){
+		List<Bank> pending = new ArrayList<Bank>();
+		Statement stat;
+		try {
+			stat = connection.createStatement();
+			ResultSet res = stat.executeQuery("select * from PendingAccounts");
+			while(res.next()) {
+				Bank bank = new Bank();
+				bank.setAccountId(res.getInt(1));
+				bank.setUserId(res.getInt(2));
+				bank.setBalance(res.getInt(3));
+				pending.add(bank);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return pending;
+	}
+	
+	public Bank getBankAccount(int accId){
+		Bank account = new Bank();
+		PreparedStatement stat;
+		try {
+			stat = connection.prepareStatement("select * from PendingAccounts where pendid = ?");
+			stat.setInt(1, accId);
+			ResultSet res = stat.executeQuery();
+			res.next();
+			account.setAccountId(res.getInt(1));
+			account.setUserId(res.getInt(2));
+			account.setBalance(res.getInt(3));
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return account;
+	}
+	
 	@Override
 	public boolean addCustomer(Customer customer) {
 		// TODO Auto-generated method stub
@@ -293,25 +329,6 @@ public class BankDAOImpl implements BankDAO{
 			e.printStackTrace();
 		}
 		return accId;
-	}
-	
-	public List<Bank> getPending(){
-		List<Bank> pending = new ArrayList<Bank>();
-		Statement stat;
-		try {
-			stat = connection.createStatement();
-			ResultSet res = stat.executeQuery("select * from PendingAccounts");
-			while(res.next()) {
-				Bank bank = new Bank();
-				bank.setAccountId(res.getInt(1));
-				bank.setUserId(res.getInt(2));
-				bank.setBalance(res.getInt(3));
-				pending.add(bank);
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return pending;
 	}
 
 }

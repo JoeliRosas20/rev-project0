@@ -325,6 +325,27 @@ public class BankApp {
 				System.out.println("Pending account creations");
 				pending = bankDAO.getPending();
 				printPendingAccounts(pending);
+				System.out.println("Press 1 to approve, Press 2 to reject");
+				int pick = scanner.nextInt();
+				if(pick==1) {
+					System.out.println("Which account will you approve");
+					int accChoice = scanner.nextInt();
+					Bank temp = bankDAO.getBankAccount(accChoice);
+					System.out.println("Are you sure?");
+					String sure = scanner.next();
+					if(sure.equals("Yes")) {
+						bankDAO.createAccount(temp);
+					}
+					else {
+						continue;
+					}
+				}
+				else if(pick==2) {
+					
+				}
+				else {
+					System.out.println("I did not understand, try again");
+				}
 				break;
 			case 9:
 				System.out.println("See you later");
