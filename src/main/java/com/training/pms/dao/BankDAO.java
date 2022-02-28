@@ -30,5 +30,6 @@ public interface BankDAO {
 	public String getCustomerName(int userId);
 	public String getEmployeeName(int userId);
 	public int getAccountId(int userId, int num);
+	public boolean areThereAccounts(int userId);
 	
 }

@@ -330,5 +330,9 @@ public class BankDAOImpl implements BankDAO{
 		}
 		return accId;
 	}
+	
+	public boolean areThereAccounts(int userId) {
+		return false;
+	}
 
 }
