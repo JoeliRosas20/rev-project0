@@ -1,5 +1,8 @@
 package com.training.pms;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Scanner;
 
 import com.training.pms.bank.Bank;
@@ -19,7 +22,9 @@ public class BankApp {
 	LoginDAO loginDAO = new LoginDAOImpl();
 	Customer customer = new Customer();
 	Employee employee = new Employee();
+	Bank bank = new Bank();
 	Login login = new Login();
+	List<Bank> pending = new ArrayList<Bank>();
 	Boolean result;
 
 	public void startBankApp() {
@@ -162,6 +167,7 @@ public class BankApp {
 		String custPassword = " ";
 		String choice = " ";
 		int balance = 0;
+		//Beginning
 		System.out.println("Account details for Customer ?");
 		System.out.println("Enter customer id : ");
 		custID = scanner.nextInt();
@@ -176,11 +182,12 @@ public class BankApp {
 			System.out.println("Enter the amount you want to put:");
 			balance = scanner.nextInt();
 		}
+		//Inserting the account
 		login = new Login(custName, custPassword, custID);
 		customer = new Customer(balance, custID, custName);
 		result = loginDAO.register(login);
 		bankDAO.addCustomer(customer);
-		bankDAO.createAccount(customer);
+		bankDAO.sendForApproval(customer);
 		int accId = bankDAO.getAccountId(custID, balance);
 		if (result) {
 			System.out.println("Congrats" + custName + " your account ID is " + accId);
@@ -296,6 +303,7 @@ public class BankApp {
 			System.out.println("Welcome back "+name);
 			System.out.println("1. Check for pending transactions");
 			System.out.println("2. View a customer's account");
+			System.out.println("3. View incoming account creation");
 			System.out.println("9. E X I T");
 			choice = scanner.nextInt();
 			switch(choice) {
@@ -309,13 +317,28 @@ public class BankApp {
 				System.out.println("Select their account");
 				int accId = scanner.nextInt();
 				Bank bank = bankDAO.viewAccount(custId, accId);
+				String custName = bankDAO.getCustomerName(custId);
+				System.out.print(custName+"'s bank account: ");
 				System.out.println(bank);
+				break;
+			case 3:
+				System.out.println("Pending account creations");
+				pending = bankDAO.getPending();
+				printPendingAccounts(pending);
 				break;
 			case 9:
 				System.out.println("See you later");
 				startBankApp();
 				break;
 			}
+		}
+	}
+	
+	public void printPendingAccounts(List<Bank> pending) {
+		Iterator<Bank> iterator = pending.iterator();
+		while(iterator.hasNext()) {
+			Bank temp = iterator.next();
+			System.out.println(temp);
 		}
 	}
 	

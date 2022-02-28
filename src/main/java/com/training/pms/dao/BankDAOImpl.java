@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.training.pms.bank.Bank;
 import com.training.pms.bank.Customer;
@@ -45,6 +47,25 @@ public class BankDAOImpl implements BankDAO{
 	public void viewTransactionLod(int logID) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public boolean sendForApproval(Customer customer) {
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("insert into PendingAccounts values(default,?,?)");
+			statement.setInt(1, customer.getId());
+			statement.setInt(2, customer.getBalance());
+			
+			rows = statement.executeUpdate();
+			System.out.println(rows + " inserted ");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
 	}
 	
 	@Override
@@ -112,7 +133,6 @@ public class BankDAOImpl implements BankDAO{
 		return balance;
 	}
 
-	
 	@Override
 	public boolean depositToAccount(int accountId, int num) {
 		// TODO Auto-generated method stub
@@ -154,14 +174,15 @@ public class BankDAOImpl implements BankDAO{
 	}
 
 	@Override
-	public boolean createAccount(Customer customer) {
+	public boolean createAccount(Bank bank) {
 		// TODO Auto-generated method stub
 		PreparedStatement statement = null;
 		int rows = 0;
 		try {
-			statement = connection.prepareStatement("insert into Bank values(default,?,?)");
-			statement.setInt(1, customer.getId());
-			statement.setInt(2, customer.getBalance());
+			statement = connection.prepareStatement("insert into Bank values(?,?,?)");
+			statement.setInt(1, bank.getAccountId());
+			statement.setInt(2, bank.getUserId());
+			statement.setInt(3, bank.getBalance());
 			
 			rows = statement.executeUpdate();
 			System.out.println(rows + " inserted ");
@@ -262,7 +283,7 @@ public class BankDAOImpl implements BankDAO{
 		int accId = 0;
 		PreparedStatement stat;
 		try {
-			stat= connection.prepareStatement("select accountid from Bank where userid = ? and balance = ?");
+			stat= connection.prepareStatement("select pendid from PendingAccounts where userid = ? and balance = ?");
 			stat.setInt(1, userId);
 			stat.setInt(2, num);
 			ResultSet res = stat.executeQuery();
@@ -272,6 +293,25 @@ public class BankDAOImpl implements BankDAO{
 			e.printStackTrace();
 		}
 		return accId;
+	}
+	
+	public List<Bank> getPending(){
+		List<Bank> pending = new ArrayList<Bank>();
+		Statement stat;
+		try {
+			stat = connection.createStatement();
+			ResultSet res = stat.executeQuery("select * from PendingAccounts");
+			while(res.next()) {
+				Bank bank = new Bank();
+				bank.setAccountId(res.getInt(1));
+				bank.setUserId(res.getInt(2));
+				bank.setBalance(res.getInt(3));
+				pending.add(bank);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return pending;
 	}
 
 }
