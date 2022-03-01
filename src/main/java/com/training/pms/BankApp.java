@@ -220,11 +220,11 @@ public class BankApp {
 			case 1://VIEW BALANCE
 				int account = 0;
 				System.out.println("View Balance");
-				if (bankDAO.areThereAccounts(userId)) {
+				if (bankDAO.areThereAccounts(userId)) {//DAO
 					System.out.println("Check which account you want to see");
 					account = scanner.nextInt();
 					System.out.println(
-							name + ", your balance for " + account + " is: $" + bankDAO.getBalance(userId, account));
+							name + ", your balance for " + account + " is: $" + bankDAO.getBalance(userId, account));//DAO
 				} else {
 					System.out.println(
 							"You have no accounts. Please go to make one or wait for approval if you already submitted.");
@@ -240,7 +240,7 @@ public class BankApp {
 				int dep = scanner.nextInt();
 				System.out.println("In which account do you want to deposit in?");
 				int acc = scanner.nextInt();
-				bankDAO.depositToAccount(acc, dep);
+				bankDAO.depositToAccount(acc, dep);//DAO
 				break;
 			case 4://WITHDRAW
 				System.out.println("Withdraw");
@@ -248,14 +248,14 @@ public class BankApp {
 				int wit = scanner.nextInt();
 				System.out.println("In which account do you want to withdraw?");
 				int acc2 = scanner.nextInt();
-				bankDAO.withdrawFromAccount(acc2, wit);
+				bankDAO.withdrawFromAccount(acc2, wit);//DAO
 				break;
 			case 5://OPEN NEW ACCOUNT
 				System.out.println("Open a New Bank Account");
 				System.out.println("How much money do you want to deposit?");
 				int num = scanner.nextInt();
-				created = bankDAO.createOtherAccount(userId, num);
-				int accId = bankDAO.getAccountId(userId, num);
+				created = bankDAO.createOtherAccount(userId, num);//DAO
+				int accId = bankDAO.getAccountId(userId, num);//DAO
 				if (created) {
 					System.out.println("Congrats" + name + " your account ID is " + accId);
 				} else {
@@ -274,7 +274,7 @@ public class BankApp {
 					int account2 = scanner.nextInt();
 					System.out.println("How much do you want to send?");
 					int transfer = scanner.nextInt();
-					sent = bankDAO.transferMoney(account1, account2, transfer);
+					sent = bankDAO.transferMoney(account1, account2, transfer);//DAO
 					if (sent) {
 						System.out.println("Success");
 					}
@@ -306,7 +306,7 @@ public class BankApp {
 
 	public void bankPage(int userId) {
 		while (true) {
-			String name = bankDAO.getEmployeeName(userId);
+			String name = bankDAO.getEmployeeName(userId);//DAO
 			int choice = 0;
 			System.out.println("Welcome back " + name);
 			System.out.println("1. Check for pending transactions");
@@ -322,11 +322,11 @@ public class BankApp {
 				System.out.println("Customer bank accounts");
 				System.out.println("Enter customer id");
 				int custId = scanner.nextInt();
-				if (bankDAO.areThereAccounts(custId)) {
+				if (bankDAO.areThereAccounts(custId)) {//DAO
 					System.out.println("Select their account");
 					int accId = scanner.nextInt();
-					Bank bank = bankDAO.viewAccount(custId, accId);
-					String custName = bankDAO.getCustomerName(custId);
+					Bank bank = bankDAO.viewAccount(custId, accId);//DAO
+					String custName = bankDAO.getCustomerName(custId);//DAO
 					System.out.print(custName + "'s bank account: ");
 					System.out.println(bank);
 				} else {
@@ -336,7 +336,7 @@ public class BankApp {
 				break;
 			case 3://PENDING ACCOUNT CREATIONS
 				System.out.println("Pending account creations");
-				pending = bankDAO.getPendings();
+				pending = bankDAO.getPendings();//DAO
 				if (pending.size() == 0) {
 					System.out.println("There are no accounts waiting for approval");
 				} else {
@@ -346,12 +346,12 @@ public class BankApp {
 					if (pick == 1) {
 						System.out.println("Which account will you approve");
 						int accChoice = scanner.nextInt();
-						Bank temp = bankDAO.getPendingBankAccount(accChoice);
+						Bank temp = bankDAO.getPendingBankAccount(accChoice);//DAO
 						System.out.println("Are you sure?");
 						String sure = scanner.next();
 						if (sure.equals("Yes")) {
-							bankDAO.createAccount(temp);
-							bankDAO.removeAccounts(accChoice);
+							bankDAO.createAccount(temp);//DAO
+							bankDAO.removeAccounts(accChoice);//DAO
 							System.out.println("Account approved");
 						} else {
 							continue;
@@ -359,7 +359,7 @@ public class BankApp {
 					} else if (pick == 2) {
 						System.out.println("Which account will you reject");
 						int accChoice = scanner.nextInt();
-						bankDAO.removeAccounts(accChoice);
+						bankDAO.removeAccounts(accChoice);//DAO
 						System.out.println("Account rejected");
 						
 					} else {

@@ -17,6 +17,8 @@ import com.training.pms.utility.DBConnection;
 public class BankDAOImpl implements BankDAO{
 	
 	Connection connection = DBConnection.getConnection();
+	
+	//-----Employee Stuff-----
 
 	@Override
 	public void approveTransaction(boolean res) {
@@ -101,6 +103,8 @@ public class BankDAOImpl implements BankDAO{
 		return account;
 	}
 	
+	//-----User Stuff-----
+	
 	@Override
 	public boolean addCustomer(Customer customer) {
 		System.out.println("##Adding customer :" + customer);
@@ -147,6 +151,8 @@ public class BankDAOImpl implements BankDAO{
 			return true;
 	}
 
+	//-----Customer Stuff-----
+	
 	@Override
 	public int getBalance(int userId, int accountId) {
 		int balance = 0;
@@ -268,6 +274,8 @@ public class BankDAOImpl implements BankDAO{
 	public boolean transferMoneyToOthers(int userId, int account, int amount) {
 		return false;
 	}
+	
+	//-----Helpers-----
 	
 	@Override
 	public String getCustomerName(int userId) {
