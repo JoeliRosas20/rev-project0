@@ -32,5 +32,6 @@ public interface BankDAO {
 	public int getAccountId(int userId, int amount);
 	public boolean areThereAccounts(int userId);
 	public boolean removeAccounts(int pendId);
+	public boolean userIdAlreadyTaken(int userId);
 	
 }

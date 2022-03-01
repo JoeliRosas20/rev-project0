@@ -45,11 +45,11 @@ public class BankApp {
 
 	public void choice(int num) {
 		switch (num) {
-		case 1://LOGIN
+		case 1:// LOGIN
 			System.out.println("Login");
 			login();
 			break;
-		case 2://CREATE NEW ACCOUNT
+		case 2:// CREATE NEW ACCOUNT
 			System.out.println("Create a new account");
 			createAccount();
 			break;
@@ -87,7 +87,7 @@ public class BankApp {
 				password = scanner.next();
 				if (loginDAO.validate(userID, password)) {
 					bankPage(userID);
-				}else {
+				} else {
 					System.out.println("Invalid. Try again");
 					continue;
 				}
@@ -140,60 +140,77 @@ public class BankApp {
 	}
 
 	public void employeeCreate() {
-		int empID = 0;
-		String empName = " ";
-		String empPassword = " ";
-		System.out.println("Account details for Employee ?");
-		System.out.println("Enter employee id : ");
-		empID = scanner.nextInt();
-		System.out.println("Enter employee name : ");
-		empName = scanner.next();
-		System.out.println("Enter your password : ");
-		empPassword = scanner.next();
-		// Database code
-		login = new Login(empName, empPassword, empID);
-		employee = new Employee(empID, empName);
-		result = loginDAO.register(login);
-		bankDAO.addEmployee(employee);
-		if (result) {
-			System.out.println("Congrats " + empName);
-		} else {
-			System.out.println("Sorry");
+		while (true) {
+			int empID = 0;
+			String empName = " ";
+			String empPassword = " ";
+			System.out.println("Account details for Employee");
+			System.out.println("Enter employee id : ");
+			empID = scanner.nextInt();
+			System.out.println("Enter employee name : ");
+			empName = scanner.next();
+			System.out.println("Enter your password : ");
+			empPassword = scanner.next();
+			if (bankDAO.userIdAlreadyTaken(empID)) {
+				System.out.println("ID is already taken. Please put something else.");
+				continue;
+			} else {
+				login = new Login(empName, empPassword, empID);
+				employee = new Employee(empID, empName);
+				result = loginDAO.register(login);
+				bankDAO.addEmployee(employee);
+				if (result) {
+					System.out.println("Congrats " + empName);
+					startBankApp();
+				} else {
+					System.out.println("Sorry");
+					startBankApp();
+				}
+			}
 		}
 	}
 
 	public void customerCreate() {
-		int custID = 0;
-		String custName = " ";
-		String custPassword = " ";
-		String choice = " ";
-		int balance = 0;
-		// Beginning
-		System.out.println("Account details for Customer ?");
-		System.out.println("Enter customer id : ");
-		custID = scanner.nextInt();
-		System.out.println("Enter customer name : ");
-		custName = scanner.next();
-		System.out.println("Enter your password : ");
-		custPassword = scanner.next();
-		System.out.println("Do you have money to add in your balance?");
-		System.out.println("Press Y for Yes. Press N or any other key for No");
-		choice = scanner.next();
-		if (choice.equalsIgnoreCase("Y")) {
-			System.out.println("Enter the amount you want to put:");
-			balance = scanner.nextInt();
-		}
-		// Inserting the account
-		login = new Login(custName, custPassword, custID);
-		customer = new Customer(balance, custID, custName);
-		result = loginDAO.register(login);
-		bankDAO.addCustomer(customer);
-		bankDAO.sendForApproval(customer);
-		int accId = bankDAO.getAccountId(custID, balance);
-		if (result) {
-			System.out.println("Congrats " + custName + " your account ID is " + accId);
-		} else {
-			System.out.println("Sorry");
+		while (true) {
+			int custID = 0;
+			String custName = " ";
+			String custPassword = " ";
+			String choice = " ";
+			int balance = 0;
+			// Beginning
+			System.out.println("Account details for Customer ?");
+			System.out.println("Enter customer id : ");
+			custID = scanner.nextInt();
+			System.out.println("Enter customer name : ");
+			custName = scanner.next();
+			System.out.println("Enter your password : ");
+			custPassword = scanner.next();
+			if (bankDAO.userIdAlreadyTaken(custID)) {
+				System.out.println("ID is already taken. Please put something else.");
+				continue;
+			} else {
+				System.out.println("Do you have money to add in your balance?");
+				System.out.println("Press Y for Yes. Press N or any other key for No");
+				choice = scanner.next();
+				if (choice.equalsIgnoreCase("Y")) {
+					System.out.println("Enter the amount you want to put:");
+					balance = scanner.nextInt();
+				}
+				// Inserting the account
+				login = new Login(custName, custPassword, custID);
+				customer = new Customer(balance, custID, custName);
+				result = loginDAO.register(login);
+				bankDAO.addCustomer(customer);
+				bankDAO.sendForApproval(customer);
+				int accId = bankDAO.getAccountId(custID, balance);
+				if (result) {
+					System.out.println("Congrats " + custName + " your account ID is " + accId);
+					startBankApp();
+				} else {
+					System.out.println("Sorry");
+					startBankApp();
+				}
+			}
 		}
 	}
 
@@ -217,14 +234,14 @@ public class BankApp {
 			System.out.println("Enter your choice : ");
 			int choice = scanner.nextInt();
 			switch (choice) {
-			case 1://VIEW BALANCE
+			case 1:// VIEW BALANCE
 				int account = 0;
 				System.out.println("View Balance");
-				if (bankDAO.areThereAccounts(userId)) {//DAO
+				if (bankDAO.areThereAccounts(userId)) {// DAO
 					System.out.println("Check which account you want to see");
 					account = scanner.nextInt();
 					System.out.println(
-							name + ", your balance for " + account + " is: $" + bankDAO.getBalance(userId, account));//DAO
+							name + ", your balance for " + account + " is: $" + bankDAO.getBalance(userId, account));// DAO
 				} else {
 					System.out.println(
 							"You have no accounts. Please go to make one or wait for approval if you already submitted.");
@@ -234,35 +251,35 @@ public class BankApp {
 			case 2:
 				System.out.println("Transfer Amount");
 				break;
-			case 3://DEPOSIT
+			case 3:// DEPOSIT
 				System.out.println("Deposit");
 				System.out.println("How much money do you want to deposit?");
 				int dep = scanner.nextInt();
 				System.out.println("In which account do you want to deposit in?");
 				int acc = scanner.nextInt();
-				bankDAO.depositToAccount(acc, dep);//DAO
+				bankDAO.depositToAccount(acc, dep);// DAO
 				break;
-			case 4://WITHDRAW
+			case 4:// WITHDRAW
 				System.out.println("Withdraw");
 				System.out.println("How much money do you want to withdraw?");
 				int wit = scanner.nextInt();
 				System.out.println("In which account do you want to withdraw?");
 				int acc2 = scanner.nextInt();
-				bankDAO.withdrawFromAccount(acc2, wit);//DAO
+				bankDAO.withdrawFromAccount(acc2, wit);// DAO
 				break;
-			case 5://OPEN NEW ACCOUNT
+			case 5:// OPEN NEW ACCOUNT
 				System.out.println("Open a New Bank Account");
 				System.out.println("How much money do you want to deposit?");
 				int num = scanner.nextInt();
-				created = bankDAO.createOtherAccount(userId, num);//DAO
-				int accId = bankDAO.getAccountId(userId, num);//DAO
+				created = bankDAO.createOtherAccount(userId, num);// DAO
+				int accId = bankDAO.getAccountId(userId, num);// DAO
 				if (created) {
 					System.out.println("Congrats" + name + " your account ID is " + accId);
 				} else {
 					System.out.println("Sorry");
 				}
 				break;
-			case 6://TRANSFER TO AN ACCOUNT
+			case 6:// TRANSFER TO AN ACCOUNT
 				System.out.println("Transfer to an account");
 				System.out.println("Transfer to your own account or someone else?");
 				System.out.println("1 for your own account, 2 for someone else");
@@ -274,19 +291,19 @@ public class BankApp {
 					int account2 = scanner.nextInt();
 					System.out.println("How much do you want to send?");
 					int transfer = scanner.nextInt();
-					sent = bankDAO.transferMoney(account1, account2, transfer);//DAO
+					sent = bankDAO.transferMoney(account1, account2, transfer);// DAO
 					if (sent) {
 						System.out.println("Success");
 					}
 				}
 				break;
-			case 7://CHECK FOR INCOMING TRANSFERS
+			case 7:// CHECK FOR INCOMING TRANSFERS
 				System.out.println("Check for pending incoming transfers");
 				break;
-			case 8://LOGIN PAGE
+			case 8:// LOGIN PAGE
 				login();
 				break;
-			case 9://SEE YA
+			case 9:// SEE YA
 				System.out.println("See you later");
 				startBankApp();
 				break;
@@ -296,17 +313,9 @@ public class BankApp {
 		}
 	}
 
-	public void deposit() {
-
-	}
-
-	public void withdraw() {
-
-	}
-
 	public void bankPage(int userId) {
 		while (true) {
-			String name = bankDAO.getEmployeeName(userId);//DAO
+			String name = bankDAO.getEmployeeName(userId);// DAO
 			int choice = 0;
 			System.out.println("Welcome back " + name);
 			System.out.println("1. Check for pending transactions");
@@ -315,18 +324,18 @@ public class BankApp {
 			System.out.println("9. E X I T");
 			choice = scanner.nextInt();
 			switch (choice) {
-			case 1://LIST OF PENDING TRANSACTIONS
+			case 1:// LIST OF PENDING TRANSACTIONS
 				System.out.println("List of pending transactions");
 				break;
-			case 2://VIEW CUSTOMER'S ACCOUNTS
+			case 2:// VIEW CUSTOMER'S ACCOUNTS
 				System.out.println("Customer bank accounts");
 				System.out.println("Enter customer id");
 				int custId = scanner.nextInt();
-				if (bankDAO.areThereAccounts(custId)) {//DAO
+				if (bankDAO.areThereAccounts(custId)) {// DAO
 					System.out.println("Select their account");
 					int accId = scanner.nextInt();
-					Bank bank = bankDAO.viewAccount(custId, accId);//DAO
-					String custName = bankDAO.getCustomerName(custId);//DAO
+					Bank bank = bankDAO.viewAccount(custId, accId);// DAO
+					String custName = bankDAO.getCustomerName(custId);// DAO
 					System.out.print(custName + "'s bank account: ");
 					System.out.println(bank);
 				} else {
@@ -334,9 +343,9 @@ public class BankApp {
 							"This user does not have any. Check the approval section if they just created one.");
 				}
 				break;
-			case 3://PENDING ACCOUNT CREATIONS
+			case 3:// PENDING ACCOUNT CREATIONS
 				System.out.println("Pending account creations");
-				pending = bankDAO.getPendings();//DAO
+				pending = bankDAO.getPendings();// DAO
 				if (pending.size() == 0) {
 					System.out.println("There are no accounts waiting for approval");
 				} else {
@@ -346,12 +355,12 @@ public class BankApp {
 					if (pick == 1) {
 						System.out.println("Which account will you approve");
 						int accChoice = scanner.nextInt();
-						Bank temp = bankDAO.getPendingBankAccount(accChoice);//DAO
+						Bank temp = bankDAO.getPendingBankAccount(accChoice);// DAO
 						System.out.println("Are you sure?");
 						String sure = scanner.next();
 						if (sure.equals("Yes")) {
-							bankDAO.createAccount(temp);//DAO
-							bankDAO.removeAccounts(accChoice);//DAO
+							bankDAO.createAccount(temp);// DAO
+							bankDAO.removeAccounts(accChoice);// DAO
 							System.out.println("Account approved");
 						} else {
 							continue;
@@ -359,15 +368,15 @@ public class BankApp {
 					} else if (pick == 2) {
 						System.out.println("Which account will you reject");
 						int accChoice = scanner.nextInt();
-						bankDAO.removeAccounts(accChoice);//DAO
+						bankDAO.removeAccounts(accChoice);// DAO
 						System.out.println("Account rejected");
-						
+
 					} else {
 						System.out.println("I did not understand, try again");
 					}
 				}
 				break;
-			case 9://SEE YA
+			case 9:// SEE YA
 				System.out.println("See you later");
 				startBankApp();
 				break;

@@ -357,4 +357,18 @@ public class BankDAOImpl implements BankDAO{
 			return true;
 	}
 	
+	public boolean userIdAlreadyTaken(int userId) {
+		boolean userExists = false;
+		PreparedStatement stat;
+		try {
+			stat = connection.prepareStatement("select userid from Login where userid = ?");
+			stat.setInt(1, userId);
+			ResultSet res = stat.executeQuery();
+			userExists = res.next();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return userExists;
+	}
+	
 }
