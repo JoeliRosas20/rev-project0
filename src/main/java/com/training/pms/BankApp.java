@@ -321,11 +321,12 @@ public class BankApp {
 					System.out.println("Press 1 to accept, Press 2 to deny");
 					int pick = scanner.nextInt();
 					if(pick == 1) {
-						System.out.println("Select the user id");
-						int user = scanner.nextInt();
 						System.out.println("Select the transfer id");
 						int transfer = scanner.nextInt();
-						bankDAO.acceptTransfer();
+						System.out.println("To which account do you want to recieve this transfer?");
+						int accountChoice = scanner.nextInt();
+						int money = bankDAO.acceptTransfer(transfer);
+						bankDAO.depositToAccount(accountChoice, money);
 					}else if(pick == 2) {
 						System.out.println("Select the user id");
 						int user = scanner.nextInt();

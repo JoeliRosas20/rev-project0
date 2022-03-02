@@ -277,8 +277,8 @@ public class BankDAOImpl implements BankDAO{
 		try {
 			statement = connection.prepareStatement("insert into PendingTransfers values(default, ?, ?, ?)");
 			statement.setInt(1, userId);
-			statement.setString(2, person);
-			statement.setInt(3, amount);
+			statement.setInt(2, amount);
+			statement.setString(3, person);
 			rows = statement.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -289,12 +289,23 @@ public class BankDAOImpl implements BankDAO{
 			return true;
 	}
 	
-	public boolean acceptTransfer() {
-		return false;
+	public int acceptTransfer(int accId) {
+		PreparedStatement statement = null;
+		int transfer = 0;
+		try {
+			statement = connection.prepareStatement("select balance from PendingTransfers where transferid = ?");
+			statement.setInt(1, accId);
+			ResultSet res = statement.executeQuery();
+			res.next();
+			transfer = res.getInt(1);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+			return transfer;
 	}
 	
 	public boolean denyTransfer() {
-		return false;
+			return true;
 	}
 	
 	//---------------Helpers---------------
