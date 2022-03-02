@@ -18,7 +18,7 @@ public class BankDAOImpl implements BankDAO{
 	
 	Connection connection = DBConnection.getConnection();
 	
-	//-----Employee Stuff-----
+	//---------------Employee Stuff---------------
 
 	@Override
 	public void approveTransaction(boolean res) {
@@ -103,7 +103,7 @@ public class BankDAOImpl implements BankDAO{
 		return account;
 	}
 	
-	//-----User Stuff-----
+	//---------------User Stuff---------------
 	
 	@Override
 	public boolean addCustomer(Customer customer) {
@@ -151,7 +151,7 @@ public class BankDAOImpl implements BankDAO{
 			return true;
 	}
 
-	//-----Customer Stuff-----
+	//---------------Customer Stuff---------------
 	
 	@Override
 	public int getBalance(int userId, int accountId) {
@@ -249,12 +249,12 @@ public class BankDAOImpl implements BankDAO{
 	}
 	
 	@Override
-	public boolean transferMoney(int debitor, int creditor, int amount) {
+	public boolean transferMoney(int debtor, int creditor, int amount) {
 		CallableStatement stat = null;
 		boolean transfered = false;
 		try {
 			stat = connection.prepareCall("call transfer(?,?,?)");
-			stat.setInt(1, debitor);
+			stat.setInt(1, debtor);
 			stat.setInt(2, creditor);
 			stat.setInt(3, amount);
 			transfered = stat.execute();
@@ -271,11 +271,29 @@ public class BankDAOImpl implements BankDAO{
 	}
 	
 	@Override
-	public boolean transferMoneyToOthers(int userId, int account, int amount) {
+	public boolean transferMoneyToOthers(int userId, int amount, String person) {
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("insert into PendingTransfers values(default, ?, ?, ?)");
+			statement.setInt(1, userId);
+			statement.setString(2, person);
+			statement.setInt(3, amount);
+			rows = statement.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean viewIncomingTransfers() {
 		return false;
 	}
 	
-	//-----Helpers-----
+	//---------------Helpers---------------
 	
 	@Override
 	public String getCustomerName(int userId) {

@@ -219,18 +219,18 @@ public class BankApp {
 		while (true) {
 			boolean created = false;
 			boolean sent = false;
+			boolean recieved = false;
 			String name = bankDAO.getCustomerName(userId);
 			System.out.println("Welcome");
 			System.out.println("############### Personal page for " + name + " ##############");
 			System.out.println("1. View Balance");
-			System.out.println("2. Transfer amount");
-			System.out.println("3. Deposit");
-			System.out.println("4. Withdraw");
-			System.out.println("5. Open a new Bank Account");
-			System.out.println("6. Transer money to an account");
-			System.out.println("7. Check for pending transfers from someone");
-			System.out.println("8. Logout");
-			System.out.println("9. Exit");
+			System.out.println("2. Deposit");
+			System.out.println("3. Withdraw");
+			System.out.println("4. Open a new Bank Account");
+			System.out.println("5. Transer money to an account");
+			System.out.println("6. Check for pending transfers from someone");
+			System.out.println("7. Logout");
+			System.out.println("8. Exit");
 			System.out.println("Enter your choice : ");
 			int choice = scanner.nextInt();
 			switch (choice) {
@@ -248,10 +248,7 @@ public class BankApp {
 				}
 
 				break;
-			case 2:
-				System.out.println("Transfer Amount");
-				break;
-			case 3:// DEPOSIT
+			case 2:// DEPOSIT
 				System.out.println("Deposit");
 				System.out.println("How much money do you want to deposit?");
 				int dep = scanner.nextInt();
@@ -259,7 +256,7 @@ public class BankApp {
 				int acc = scanner.nextInt();
 				bankDAO.depositToAccount(acc, dep);// DAO
 				break;
-			case 4:// WITHDRAW
+			case 3:// WITHDRAW
 				System.out.println("Withdraw");
 				System.out.println("How much money do you want to withdraw?");
 				int wit = scanner.nextInt();
@@ -267,7 +264,7 @@ public class BankApp {
 				int acc2 = scanner.nextInt();
 				bankDAO.withdrawFromAccount(acc2, wit);// DAO
 				break;
-			case 5:// OPEN NEW ACCOUNT
+			case 4:// OPEN NEW ACCOUNT
 				System.out.println("Open a New Bank Account");
 				System.out.println("How much money do you want to deposit?");
 				int num = scanner.nextInt();
@@ -279,7 +276,7 @@ public class BankApp {
 					System.out.println("Sorry");
 				}
 				break;
-			case 6:// TRANSFER TO AN ACCOUNT
+			case 5:// TRANSFER TO AN ACCOUNT
 				System.out.println("Transfer to an account");
 				System.out.println("Transfer to your own account or someone else?");
 				System.out.println("1 for your own account, 2 for someone else");
@@ -296,14 +293,30 @@ public class BankApp {
 						System.out.println("Success");
 					}
 				}
+				else if(option == 2) {
+					System.out.println("Insert the person's Id");
+					int receiverId = scanner.nextInt();
+					System.out.println("How much do you want to send?");
+					int transfer = scanner.nextInt();
+					sent = bankDAO.transferMoneyToOthers(receiverId, transfer, "customer");
+					if(sent) {
+						System.out.println("Success");
+					}
+					else {
+						System.out.println("Try again");
+					}
+				}
 				break;
-			case 7:// CHECK FOR INCOMING TRANSFERS
+			case 6:// CHECK FOR INCOMING TRANSFERS
 				System.out.println("Check for pending incoming transfers");
+				System.out.println("Enter the id of the person that sent you the money");
+				int creditorId = scanner.nextInt();
+				recieved = bankDAO.viewIncomingTransfers();
 				break;
-			case 8:// LOGIN PAGE
+			case 7:// LOGIN PAGE
 				login();
 				break;
-			case 9:// SEE YA
+			case 8:// SEE YA
 				System.out.println("See you later");
 				startBankApp();
 				break;
