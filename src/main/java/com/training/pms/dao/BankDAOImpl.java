@@ -304,7 +304,20 @@ public class BankDAOImpl implements BankDAO{
 			return transfer;
 	}
 	
-	public boolean denyTransfer() {
+	public boolean deleteTransfer(int accId) {
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("delete from PendingTransfers where transferid = ?");
+			statement.setInt(1, accId);
+			rows = statement.executeUpdate();
+			System.out.println(rows + " deleted successfully");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
 			return true;
 	}
 	

@@ -295,10 +295,13 @@ public class BankApp {
 					}
 				}
 				else if(option == 2) {
+					System.out.println("Which account do you want to transfer from?");
+					int accCreditor = scanner.nextInt();
 					System.out.println("Insert the person's Id");
 					int receiverId = scanner.nextInt();
 					System.out.println("How much do you want to send?");
 					int transfer = scanner.nextInt();
+					bankDAO.withdrawFromAccount(accCreditor, transfer);
 					sent = bankDAO.transferMoneyToOthers(receiverId, transfer, "customer");
 					if(sent) {
 						System.out.println("Success");
@@ -327,12 +330,12 @@ public class BankApp {
 						int accountChoice = scanner.nextInt();
 						int money = bankDAO.acceptTransfer(transfer);
 						bankDAO.depositToAccount(accountChoice, money);
+						bankDAO.deleteTransfer(transfer);
 					}else if(pick == 2) {
-						System.out.println("Select the user id");
-						int user = scanner.nextInt();
 						System.out.println("Select the transfer id");
 						int transfer = scanner.nextInt();
-						bankDAO.denyTransfer();
+						bankDAO.deleteTransfer(transfer);
+						System.out.println("Transfer denied");
 					}
 				}
 				break;
