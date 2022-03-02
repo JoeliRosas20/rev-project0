@@ -289,7 +289,11 @@ public class BankDAOImpl implements BankDAO{
 			return true;
 	}
 	
-	public boolean viewIncomingTransfers() {
+	public boolean acceptTransfer() {
+		return false;
+	}
+	
+	public boolean denyTransfer() {
 		return false;
 	}
 	
@@ -387,6 +391,26 @@ public class BankDAOImpl implements BankDAO{
 			e.printStackTrace();
 		}
 		return userExists;
+	}
+	
+	public List<Bank> viewIncomingTransfers(int userId) {
+		List<Bank> transfers = new ArrayList<Bank>();
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("select * from PendingTransfers where userid = ?");
+			statement.setInt(1, userId);
+			ResultSet res = statement.executeQuery();
+			while(res.next()) {
+				Bank transfer = new Bank();
+				transfer.setAccountId(res.getInt(1));
+				transfer.setUserId(res.getInt(2));
+				transfer.setBalance(res.getInt(3));
+				transfers.add(transfer);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return transfers;
 	}
 	
 }

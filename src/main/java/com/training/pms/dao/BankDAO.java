@@ -26,7 +26,8 @@ public interface BankDAO {
 	public boolean createOtherAccount(int userId, int amount);
 	public boolean transferMoney(int account1, int account2, int amount);
 	public boolean transferMoneyToOthers(int userId, int amount, String person);
-	public boolean viewIncomingTransfers();
+	public boolean acceptTransfer();
+	public boolean denyTransfer();
 	//Helpers
 	public String getCustomerName(int userId);
 	public String getEmployeeName(int userId);
@@ -34,5 +35,6 @@ public interface BankDAO {
 	public boolean areThereAccounts(int userId);
 	public boolean removeAccounts(int pendId);
 	public boolean userIdAlreadyTaken(int userId);
+	public List<Bank> viewIncomingTransfers(int userId);
 	
 }

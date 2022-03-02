@@ -25,6 +25,7 @@ public class BankApp {
 	Bank bank = new Bank();
 	Login login = new Login();
 	List<Bank> pending = new ArrayList<Bank>();
+	List<Bank> transfer = new ArrayList<Bank>();
 	Boolean result;
 
 	public void startBankApp() {
@@ -309,9 +310,30 @@ public class BankApp {
 				break;
 			case 6:// CHECK FOR INCOMING TRANSFERS
 				System.out.println("Check for pending incoming transfers");
-				System.out.println("Enter the id of the person that sent you the money");
-				int creditorId = scanner.nextInt();
-				recieved = bankDAO.viewIncomingTransfers();
+				System.out.println("Enter your id");
+				int debitorId = scanner.nextInt();
+				transfer = bankDAO.viewIncomingTransfers(debitorId);
+				if(transfer.size() == 0) {
+					System.out.println("No incoming transfers");
+				}else {
+					System.out.println("Here are the incoming transfers");
+					printPendingTransfers(transfer);
+					System.out.println("Press 1 to accept, Press 2 to deny");
+					int pick = scanner.nextInt();
+					if(pick == 1) {
+						System.out.println("Select the user id");
+						int user = scanner.nextInt();
+						System.out.println("Select the transfer id");
+						int transfer = scanner.nextInt();
+						bankDAO.acceptTransfer();
+					}else if(pick == 2) {
+						System.out.println("Select the user id");
+						int user = scanner.nextInt();
+						System.out.println("Select the transfer id");
+						int transfer = scanner.nextInt();
+						bankDAO.denyTransfer();
+					}
+				}
 				break;
 			case 7:// LOGIN PAGE
 				login();
@@ -398,6 +420,14 @@ public class BankApp {
 	}
 
 	public void printPendingAccounts(List<Bank> pending) {
+		Iterator<Bank> iterator = pending.iterator();
+		while (iterator.hasNext()) {
+			Bank temp = iterator.next();
+			System.out.println(temp);
+		}
+	}
+	
+	public void printPendingTransfers(List<Bank> pending) {
 		Iterator<Bank> iterator = pending.iterator();
 		while (iterator.hasNext()) {
 			Bank temp = iterator.next();
