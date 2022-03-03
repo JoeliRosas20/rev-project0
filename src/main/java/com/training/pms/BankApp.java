@@ -9,6 +9,7 @@ import com.training.pms.bank.Bank;
 import com.training.pms.bank.Customer;
 import com.training.pms.bank.Employee;
 import com.training.pms.bank.Login;
+import com.training.pms.bank.Transfer;
 import com.training.pms.dao.BankDAO;
 import com.training.pms.dao.BankDAOImpl;
 import com.training.pms.dao.LoginDAO;
@@ -25,7 +26,7 @@ public class BankApp {
 	Bank bank = new Bank();
 	Login login = new Login();
 	List<Bank> pending = new ArrayList<Bank>();
-	List<Bank> transfer = new ArrayList<Bank>();
+	List<Transfer> transfer = new ArrayList<Transfer>();
 	Boolean result;
 
 	public void startBankApp() {
@@ -196,6 +197,10 @@ public class BankApp {
 				if (choice.equalsIgnoreCase("Y")) {
 					System.out.println("Enter the amount you want to put:");
 					balance = scanner.nextInt();
+					if(balance < 0) {
+						System.out.println("You can not insert a negative balance");
+						continue;
+					}
 				}
 				// Inserting the account
 				login = new Login(custName, custPassword, custID);
@@ -247,7 +252,6 @@ public class BankApp {
 					System.out.println(
 							"You have no accounts. Please go to make one or wait for approval if you already submitted.");
 				}
-
 				break;
 			case 2:// DEPOSIT
 				System.out.println("Deposit");
@@ -431,10 +435,10 @@ public class BankApp {
 		}
 	}
 	
-	public void printPendingTransfers(List<Bank> pending) {
-		Iterator<Bank> iterator = pending.iterator();
+	public void printPendingTransfers(List<Transfer> pending) {
+		Iterator<Transfer> iterator = pending.iterator();
 		while (iterator.hasNext()) {
-			Bank temp = iterator.next();
+			Transfer temp = iterator.next();
 			System.out.println(temp);
 		}
 	}

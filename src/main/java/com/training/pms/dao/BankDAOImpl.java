@@ -12,6 +12,7 @@ import java.util.List;
 import com.training.pms.bank.Bank;
 import com.training.pms.bank.Customer;
 import com.training.pms.bank.Employee;
+import com.training.pms.bank.Transfer;
 import com.training.pms.utility.DBConnection;
 
 public class BankDAOImpl implements BankDAO{
@@ -417,18 +418,19 @@ public class BankDAOImpl implements BankDAO{
 		return userExists;
 	}
 	
-	public List<Bank> viewIncomingTransfers(int userId) {
-		List<Bank> transfers = new ArrayList<Bank>();
+	public List<Transfer> viewIncomingTransfers(int userId) {
+		List<Transfer> transfers = new ArrayList<Transfer>();
 		PreparedStatement statement;
 		try {
 			statement = connection.prepareStatement("select * from PendingTransfers where userid = ?");
 			statement.setInt(1, userId);
 			ResultSet res = statement.executeQuery();
 			while(res.next()) {
-				Bank transfer = new Bank();
-				transfer.setAccountId(res.getInt(1));
+				Transfer transfer = new Transfer();
+				transfer.setTransferId(res.getInt(1));
 				transfer.setUserId(res.getInt(2));
 				transfer.setBalance(res.getInt(3));
+				transfer.setPerson(res.getString(4));
 				transfers.add(transfer);
 			}
 		}catch(SQLException e) {

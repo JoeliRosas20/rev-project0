@@ -5,6 +5,7 @@ import java.util.List;
 import com.training.pms.bank.Bank;
 import com.training.pms.bank.Customer;
 import com.training.pms.bank.Employee;
+import com.training.pms.bank.Transfer;
 
 public interface BankDAO {
 	
@@ -35,6 +36,6 @@ public interface BankDAO {
 	public boolean areThereAccounts(int userId);
 	public boolean removeAccounts(int pendId);
 	public boolean userIdAlreadyTaken(int userId);
-	public List<Bank> viewIncomingTransfers(int userId);
+	public List<Transfer> viewIncomingTransfers(int userId);
 	
 }

@@ -7,7 +7,6 @@ public class Bank {
 	private int balance;
 
 	public Bank() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public Bank(int userId, int accountId, int balance) {

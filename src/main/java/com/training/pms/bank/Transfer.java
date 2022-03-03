@@ -7,6 +7,10 @@ public class Transfer {
 	private int balance;
 	private String person;
 	
+	public Transfer() {
+		super();
+	}
+
 	public Transfer(int transferId, int userId, int balance, String person) {
 		super();
 		this.transferId = transferId;
