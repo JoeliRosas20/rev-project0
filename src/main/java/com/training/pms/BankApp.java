@@ -257,6 +257,10 @@ public class BankApp {
 				System.out.println("Deposit");
 				System.out.println("How much money do you want to deposit?");
 				int dep = scanner.nextInt();
+				if(dep < 0) {
+					System.out.println("You cannot deposit a negative balance");
+					continue;
+				}
 				System.out.println("In which account do you want to deposit in?");
 				int acc = scanner.nextInt();
 				bankDAO.depositToAccount(acc, dep);// DAO

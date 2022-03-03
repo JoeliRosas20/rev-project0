@@ -43,11 +43,6 @@ public class BankDAOImpl implements BankDAO{
 		}
 		return bank;
 	}
-
-	@Override
-	public void viewTransactionLod(int logID) {
-		
-	}
 	
 	public boolean sendForApproval(Customer customer) {
 		PreparedStatement statement = null;
