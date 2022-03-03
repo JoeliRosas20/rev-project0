@@ -263,15 +263,32 @@ public class BankApp {
 				}
 				System.out.println("In which account do you want to deposit in?");
 				int acc = scanner.nextInt();
+				if(dep > 600) {
+					System.out.println("This transaction will be sent for review");
+					bankDAO.sendDepositForReview(acc, dep);
+					continue;
+				}
 				bankDAO.depositToAccount(acc, dep);// DAO
 				break;
 			case 3:// WITHDRAW
 				System.out.println("Withdraw");
 				System.out.println("How much money do you want to withdraw?");
 				int wit = scanner.nextInt();
+				if(wit < 0) {
+					System.out.println("You cannot withdraw a negative balance");
+					continue;
+				}
 				System.out.println("In which account do you want to withdraw?");
-				int acc2 = scanner.nextInt();
-				bankDAO.withdrawFromAccount(acc2, wit);// DAO
+				int accWith = scanner.nextInt();
+				if(bankDAO.getBalance(accWith) <= 0) {
+					System.out.println("You can not withdraw because you have a negative balance");
+					continue;
+				}
+				bankDAO.withdrawFromAccount(accWith, wit);// DAO
+				if(bankDAO.getBalance(accWith) < 0) {
+					System.out.println("Sorry you can not withdraw ");
+					bankDAO.depositToAccount(accWith, wit);
+				}
 				break;
 			case 4:// OPEN NEW ACCOUNT
 				System.out.println("Open a New Bank Account");
@@ -328,7 +345,7 @@ public class BankApp {
 					System.out.println("No incoming transfers");
 				}else {
 					System.out.println("Here are the incoming transfers");
-					printPendingTransfers(transfer);
+					printPendingTransfersC(transfer);
 					System.out.println("Press 1 to accept, Press 2 to deny");
 					int pick = scanner.nextInt();
 					if(pick == 1) {
@@ -373,6 +390,8 @@ public class BankApp {
 			switch (choice) {
 			case 1:// LIST OF PENDING TRANSACTIONS
 				System.out.println("List of pending transactions");
+				transfer = bankDAO.viewIncomingTransfers();
+				printPendingTransfersE(transfer);
 				break;
 			case 2:// VIEW CUSTOMER'S ACCOUNTS
 				System.out.println("Customer bank accounts");
@@ -439,12 +458,19 @@ public class BankApp {
 		}
 	}
 	
-	public void printPendingTransfers(List<Transfer> pending) {
+	public void printPendingTransfersC(List<Transfer> pending) {
 		Iterator<Transfer> iterator = pending.iterator();
 		while (iterator.hasNext()) {
 			Transfer temp = iterator.next();
-			System.out.println(temp);
+			System.out.println(temp.toStringC());
 		}
 	}
-
+	public void printPendingTransfersE(List<Transfer> pending) {
+		Iterator<Transfer> iterator = pending.iterator();
+		while (iterator.hasNext()) {
+			Transfer temp = iterator.next();
+			System.out.println(temp.toString());
+		}
+	}
+	
 }

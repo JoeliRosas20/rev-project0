@@ -36,5 +36,8 @@ public interface BankDAO {
 	public boolean removeAccounts(int pendId);									 //Remove pending account 
 	public boolean userIdAlreadyTaken(int userId);								 //Check if user can use that id
 	public List<Transfer> viewIncomingTransfers(int userId);					 //Customer sees list of incoming transfers
+	public int getBalance(int accId);
+	public boolean sendDepositForReview(int accId, int deposit);
+	public List<Transfer> viewIncomingTransfers();
 	
 }

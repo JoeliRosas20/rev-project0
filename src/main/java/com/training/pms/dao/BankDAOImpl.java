@@ -425,6 +425,62 @@ public class BankDAOImpl implements BankDAO{
 				transfer.setTransferId(res.getInt(1));
 				transfer.setUserId(res.getInt(2));
 				transfer.setBalance(res.getInt(3));
+				transfers.add(transfer);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return transfers;
+	}
+	
+	public int getBalance(int accId) {
+		int money = 0;
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("select balance from Bank where accountid = ?");
+			statement.setInt(1, accId);
+			ResultSet res = statement.executeQuery();
+			res.next();
+			money = res.getInt(1);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return money;
+	}
+	
+	public boolean sendDepositForReview(int accId,int deposit) {
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("insert into PendingTransfers values(default,?,?,?)");
+			statement.setInt(1, accId);
+			statement.setInt(2, deposit);
+			statement.setString(3, "employee");
+
+			rows = statement.executeUpdate();
+			System.out.println(rows + " inserted successfully");
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	public List<Transfer> viewIncomingTransfers() {
+		List<Transfer> transfers = new ArrayList<Transfer>();
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			ResultSet res = statement.executeQuery("select * from PendingTransfers");
+			while(res.next()) {
+				Transfer transfer = new Transfer();
+				transfer.setTransferId(res.getInt(1));
+				transfer.setUserId(res.getInt(2));
+				transfer.setBalance(res.getInt(3));
 				transfer.setPerson(res.getString(4));
 				transfers.add(transfer);
 			}
