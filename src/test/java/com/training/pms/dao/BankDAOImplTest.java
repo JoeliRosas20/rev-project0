@@ -46,12 +46,12 @@ class BankDAOImplTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		bankDAO = new BankDAOImpl();
-		usernameE = "Dummy E";
-		usernameC = "Dummy C";
-		userIdE = 100;
-		userIdC = 50;
-		passwordE = "Eroot";
-		passwordC = "Croot";
+		usernameE = "E Dummy";
+		usernameC = "C Dummy";
+		userIdE = 101;
+		userIdC = 51;
+		passwordE = "eroot";
+		passwordC = "croot";
 		balance = 50;
 		expectedPendId = 6;
 		accId = 5;
@@ -108,7 +108,6 @@ class BankDAOImplTest {
 		assertEquals(bankFound, bank);
 	}
 
-	@Disabled
 	@Test
 	@Order(value = 2)
 	@DisplayName("2.Adding a customer")
@@ -117,7 +116,6 @@ class BankDAOImplTest {
 		assertTrue(bankDAO.addCustomer(customer));
 	}
 
-	@Disabled
 	@Test
 	@Order(value = 1)
 	@DisplayName("1.Adding an employee")

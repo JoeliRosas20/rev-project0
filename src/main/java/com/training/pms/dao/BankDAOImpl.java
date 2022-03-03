@@ -21,11 +21,6 @@ public class BankDAOImpl implements BankDAO{
 	
 	//---------------Employee Stuff---------------
 
-	@Override
-	public void approveTransaction(boolean res) {
-		
-	}
-
 	public Bank viewAccount(int userId, int account) {
 		Bank bank = new Bank();
 		PreparedStatement stat;
@@ -53,7 +48,6 @@ public class BankDAOImpl implements BankDAO{
 			statement.setInt(2, customer.getBalance());
 			
 			rows = statement.executeUpdate();
-			System.out.println(rows + " inserted ");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -99,6 +93,93 @@ public class BankDAOImpl implements BankDAO{
 		return account;
 	}
 	
+	@Override
+	public boolean createAccount(Bank bank) {
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("insert into Bank values(?,?,?)");
+			statement.setInt(1, bank.getAccountId());
+			statement.setInt(2, bank.getUserId());
+			statement.setInt(3, bank.getBalance());
+			
+			rows = statement.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	public boolean removeAccounts(int pendId) {
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("delete from PendingAccounts where pendid = ?");
+			statement.setInt(1, pendId);
+			rows = statement.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	public List<Transfer> viewIncomingTransfers() {
+		List<Transfer> transfers = new ArrayList<Transfer>();
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			ResultSet res = statement.executeQuery("select * from PendingTransfers");
+			while(res.next()) {
+				Transfer transfer = new Transfer();
+				transfer.setTransferId(res.getInt(1));
+				transfer.setUserId(res.getInt(2));
+				transfer.setBalance(res.getInt(3));
+				transfer.setPerson(res.getString(4));
+				transfers.add(transfer);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return transfers;
+	}
+	
+	public int getApprovedBalance(int transferId) {
+		int balance = 0;
+		PreparedStatement statement = null;
+		try {
+			statement = connection.prepareStatement("select balance from PendingTransfers where transferid=?");
+			statement.setInt(1, transferId);
+			ResultSet res = statement.executeQuery();
+			res.next();
+			balance = res.getInt(1);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return balance;
+	}
+	
+	public boolean denyTransfer(int transferId) {
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("delete from PendingTransfers where transferid = ?");
+			statement.setInt(1, transferId);
+			rows = statement.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
 	//---------------User Stuff---------------
 	
 	@Override
@@ -112,8 +193,6 @@ public class BankDAOImpl implements BankDAO{
 			statement.setString(2, customer.getName());
 
 			rows = statement.executeUpdate();
-			System.out.println(rows + " inserted successfully");
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -135,8 +214,6 @@ public class BankDAOImpl implements BankDAO{
 			statement.setString(2, employee.getName());
 
 			rows = statement.executeUpdate();
-			System.out.println(rows + " inserted successfully");
-
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -174,7 +251,6 @@ public class BankDAOImpl implements BankDAO{
 			statement.setInt(1, amount);
 			statement.setInt(2, accountId);
 			rows = statement.executeUpdate();
-			System.out.println(rows+" updated successfully");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -193,7 +269,6 @@ public class BankDAOImpl implements BankDAO{
 			statement.setInt(1, amount);
 			statement.setInt(2, accountId);
 			rows = statement.executeUpdate();
-			System.out.println(rows+" updated successfully");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -204,27 +279,6 @@ public class BankDAOImpl implements BankDAO{
 	}
 
 	@Override
-	public boolean createAccount(Bank bank) {
-		PreparedStatement statement = null;
-		int rows = 0;
-		try {
-			statement = connection.prepareStatement("insert into Bank values(?,?,?)");
-			statement.setInt(1, bank.getAccountId());
-			statement.setInt(2, bank.getUserId());
-			statement.setInt(3, bank.getBalance());
-			
-			rows = statement.executeUpdate();
-			System.out.println(rows + " inserted ");
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		if (rows == 0)
-			return false;
-		else
-			return true;
-	}
-	
-	@Override
 	public boolean createOtherAccount(int userId, int amount) {
 		PreparedStatement statement = null;
 		int rows = 0;
@@ -234,7 +288,6 @@ public class BankDAOImpl implements BankDAO{
 			statement.setInt(2, amount);
 			
 			rows = statement.executeUpdate();
-			System.out.println(rows + " inserted ");
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -254,8 +307,6 @@ public class BankDAOImpl implements BankDAO{
 			stat.setInt(2, creditor);
 			stat.setInt(3, amount);
 			transfered = stat.execute();
-			
-			System.out.println("Transfer done");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -307,8 +358,62 @@ public class BankDAOImpl implements BankDAO{
 			statement = connection.prepareStatement("delete from PendingTransfers where transferid = ?");
 			statement.setInt(1, accId);
 			rows = statement.executeUpdate();
-			System.out.println(rows + " deleted successfully");
 		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (rows == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	public List<Transfer> viewIncomingTransfers(int userId) {
+		List<Transfer> transfers = new ArrayList<Transfer>();
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("select * from PendingTransfers where userid = ?");
+			statement.setInt(1, userId);
+			ResultSet res = statement.executeQuery();
+			while(res.next()) {
+				Transfer transfer = new Transfer();
+				transfer.setTransferId(res.getInt(1));
+				transfer.setUserId(res.getInt(2));
+				transfer.setBalance(res.getInt(3));
+				transfers.add(transfer);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return transfers;
+	}
+	
+	public int getBalance(int accId) {
+		int money = 0;
+		PreparedStatement statement;
+		try {
+			statement = connection.prepareStatement("select balance from Bank where accountid = ?");
+			statement.setInt(1, accId);
+			ResultSet res = statement.executeQuery();
+			res.next();
+			money = res.getInt(1);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return money;
+	}
+	
+	public boolean sendDepositForReview(int accId,int deposit) {
+		PreparedStatement statement = null;
+		int rows = 0;
+		try {
+			statement = connection.prepareStatement("insert into PendingTransfers values(default,?,?,?)");
+			statement.setInt(1, accId);
+			statement.setInt(2, deposit);
+			statement.setString(3, "employee");
+
+			rows = statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if (rows == 0)
@@ -382,23 +487,6 @@ public class BankDAOImpl implements BankDAO{
 		return accountsExist;
 	}
 
-	public boolean removeAccounts(int pendId) {
-		PreparedStatement statement = null;
-		int rows = 0;
-		try {
-			statement = connection.prepareStatement("delete from PendingAccounts where pendid = ?");
-			statement.setInt(1, pendId);
-			rows = statement.executeUpdate();
-			System.out.println(rows + " deleted successfully");
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		if (rows == 0)
-			return false;
-		else
-			return true;
-	}
-	
 	public boolean userIdAlreadyTaken(int userId) {
 		boolean userExists = false;
 		PreparedStatement stat;
@@ -411,83 +499,6 @@ public class BankDAOImpl implements BankDAO{
 			e.printStackTrace();
 		}
 		return userExists;
-	}
-	
-	public List<Transfer> viewIncomingTransfers(int userId) {
-		List<Transfer> transfers = new ArrayList<Transfer>();
-		PreparedStatement statement;
-		try {
-			statement = connection.prepareStatement("select * from PendingTransfers where userid = ?");
-			statement.setInt(1, userId);
-			ResultSet res = statement.executeQuery();
-			while(res.next()) {
-				Transfer transfer = new Transfer();
-				transfer.setTransferId(res.getInt(1));
-				transfer.setUserId(res.getInt(2));
-				transfer.setBalance(res.getInt(3));
-				transfers.add(transfer);
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return transfers;
-	}
-	
-	public int getBalance(int accId) {
-		int money = 0;
-		PreparedStatement statement;
-		try {
-			statement = connection.prepareStatement("select balance from Bank where accountid = ?");
-			statement.setInt(1, accId);
-			ResultSet res = statement.executeQuery();
-			res.next();
-			money = res.getInt(1);
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return money;
-	}
-	
-	public boolean sendDepositForReview(int accId,int deposit) {
-		PreparedStatement statement = null;
-		int rows = 0;
-		try {
-			statement = connection.prepareStatement("insert into PendingTransfers values(default,?,?,?)");
-			statement.setInt(1, accId);
-			statement.setInt(2, deposit);
-			statement.setString(3, "employee");
-
-			rows = statement.executeUpdate();
-			System.out.println(rows + " inserted successfully");
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (rows == 0)
-			return false;
-		else
-			return true;
-	}
-	
-	public List<Transfer> viewIncomingTransfers() {
-		List<Transfer> transfers = new ArrayList<Transfer>();
-		Statement statement;
-		try {
-			statement = connection.createStatement();
-			ResultSet res = statement.executeQuery("select * from PendingTransfers");
-			while(res.next()) {
-				Transfer transfer = new Transfer();
-				transfer.setTransferId(res.getInt(1));
-				transfer.setUserId(res.getInt(2));
-				transfer.setBalance(res.getInt(3));
-				transfer.setPerson(res.getString(4));
-				transfers.add(transfer);
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return transfers;
 	}
 	
 }

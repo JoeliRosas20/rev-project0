@@ -120,8 +120,9 @@ public class BankApp {
 		System.out.println("Welcome to create/open account section");
 		System.out.println("Please enter the details to open an acccount:");
 		System.out.println("Enter your account type ( E for Employee / C for Customer ):");
+		System.out.println("Or press L to leave");
 		choice = scanner.next().charAt(0);
-		if (choice != 'E' && choice != 'C') {
+		if (choice != 'E' && choice != 'C' && choice != 'L') {
 			System.out.println("Incorrect account type, please enter again ");
 			System.out.println("Enter your account type ( E for Employee / C for Customer ):");
 			choice = scanner.next().charAt(0);
@@ -130,6 +131,8 @@ public class BankApp {
 			employeeCreate();
 		} else if (choice == 'C') {
 			customerCreate();
+		} else if(choice == 'L') {
+			startBankApp();
 		}
 	}
 
@@ -146,13 +149,26 @@ public class BankApp {
 			int empID = 0;
 			String empName = " ";
 			String empPassword = " ";
-			System.out.println("Account details for Employee");
+			System.out.println("Account details for Employee(Press -1 to leave)");
 			System.out.println("Enter employee id : ");
 			empID = scanner.nextInt();
+			if(empID == -1) {
+				createAccount();
+			}
 			System.out.println("Enter employee name : ");
 			empName = scanner.next();
+			if(empName.equals("-1")) {
+				createAccount();
+			}
 			System.out.println("Enter your password : ");
 			empPassword = scanner.next();
+			if(empPassword.equals("-1")) {
+				createAccount();
+			}
+			if(empID < 0) {
+				System.out.println("Invalid number. Enter a postive number");
+				continue;
+			}
 			if (bankDAO.userIdAlreadyTaken(empID)) {
 				System.out.println("ID is already taken. Please put something else.");
 				continue;
@@ -183,10 +199,23 @@ public class BankApp {
 			System.out.println("Account details for Customer ?");
 			System.out.println("Enter customer id : ");
 			custID = scanner.nextInt();
+			if(custID == -1) {
+				createAccount();
+			}
 			System.out.println("Enter customer name : ");
 			custName = scanner.next();
+			if(custName.equals("-1")) {
+				createAccount();
+			}
 			System.out.println("Enter your password : ");
 			custPassword = scanner.next();
+			if(custPassword.equals("-1")) {
+				createAccount();
+			}
+			if(custID < 0) {
+				System.out.println("Invalid number. Enter a postive number");
+				continue;
+			}
 			if (bankDAO.userIdAlreadyTaken(custID)) {
 				System.out.println("ID is already taken. Please put something else.");
 				continue;
@@ -210,7 +239,7 @@ public class BankApp {
 				bankDAO.sendForApproval(customer);
 				int accId = bankDAO.getAccountId(custID, balance);
 				if (result) {
-					System.out.println("Congrats " + custName + " your account ID is " + accId);
+					System.out.println("Congrats " + custName + " your account ID is " + accId+" and it will be sent for approval");
 					startBankApp();
 				} else {
 					System.out.println("Sorry");
@@ -221,11 +250,9 @@ public class BankApp {
 	}
 
 	public void personalPage(int userId) {
-		// database code
 		while (true) {
 			boolean created = false;
 			boolean sent = false;
-			boolean recieved = false;
 			String name = bankDAO.getCustomerName(userId);
 			System.out.println("Welcome");
 			System.out.println("############### Personal page for " + name + " ##############");
@@ -391,7 +418,26 @@ public class BankApp {
 			case 1:// LIST OF PENDING TRANSACTIONS
 				System.out.println("List of pending transactions");
 				transfer = bankDAO.viewIncomingTransfers();
-				printPendingTransfersE(transfer);
+				if(transfer.size() == 0) {
+					System.out.println("There are no pending transactions");
+					continue;
+				}else {
+					printPendingTransfersE(transfer);
+					System.out.println("Press 1 to accept, Press 2 to deny");
+					int pick = scanner.nextInt();
+					if(pick == 1) {
+						System.out.println("Which transfer will you accept?");
+						int acceptedTransfer = scanner.nextInt();
+						System.out.println("Enter the account Id");
+						int acceptedAcc = scanner.nextInt();
+						int money = bankDAO.acceptTransfer(acceptedTransfer);
+						bankDAO.depositToAccount(acceptedAcc, money);
+					}else if(pick == 2) {
+						System.out.println("Which transfer will you deny?");
+						int deniedTransfer = scanner.nextInt();
+						bankDAO.denyTransfer(deniedTransfer);
+					}
+				}
 				break;
 			case 2:// VIEW CUSTOMER'S ACCOUNTS
 				System.out.println("Customer bank accounts");
@@ -465,6 +511,7 @@ public class BankApp {
 			System.out.println(temp.toStringC());
 		}
 	}
+	
 	public void printPendingTransfersE(List<Transfer> pending) {
 		Iterator<Transfer> iterator = pending.iterator();
 		while (iterator.hasNext()) {

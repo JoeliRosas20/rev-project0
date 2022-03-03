@@ -35,12 +35,12 @@ class LoginDAOImplTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		loginDAO = new LoginDAOImpl();
-		usernameE = "Dummy E";
-		usernameC = "Dummy C";
-		userIdE = 100;
-		userIdC = 50;
-		passwordE = "Eroot";
-		passwordC = "Croot";
+		usernameE = "E Dummy";
+		usernameC = "C Dummy";
+		userIdE = 101;
+		userIdC = 51;
+		passwordE = "eroot";
+		passwordC = "eroot";
 	}
 
 	@AfterEach
